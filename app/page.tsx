@@ -25,9 +25,9 @@ export default function Home() {
 
   return (
     <NotionShell breadcrumbs={breadcrumbs}>
-      <div className="max-w-[1600px] mx-auto pt-6 px-8 pb-6">
+      <div className="max-w-[1600px] mx-auto pt-6 px-8 pb-6 flex flex-col gap-0 h-fit">
         {/* Header Section - Split Layout */}
-        <div className="mb-8 flex gap-4">
+        <div className="mb-8 flex gap-4 h-fit">
           {/* Left Section: Branding */}
           <div className="flex items-start gap-3 px-8 py-6 flex-1">
             <div className="relative flex items-center justify-center w-6 h-6">
@@ -55,7 +55,7 @@ export default function Home() {
           </div>
 
           {/* Right Section: Dark Gray Container with Sync Feed Milestones */}
-          <div className="bg-[#141414] rounded-lg flex-1 p-6 flex gap-8">
+          <div className="bg-[#1E1E1E] rounded-xl flex-1 p-6 flex gap-8">
             {/* Sync Feed Milestones Component */}
             <div className="flex flex-col items-center flex-1 py-[65px] px-3">
               <div className="w-10 h-10 rounded-full bg-[#555555] flex items-center justify-center mb-3">
@@ -92,7 +92,7 @@ export default function Home() {
         </div>
 
         {/* Widget Customizer Content */}
-        <div className="flex gap-8">
+        <div className="flex gap-8 h-full">
           {/* Left Panel: Controls */}
           <aside className="w-[380px] flex-shrink-0">
             <Controls
@@ -103,9 +103,9 @@ export default function Home() {
           </aside>
 
           {/* Right Panel: Preview */}
-          <section className="flex-1 min-w-0">
+          <section className="flex-1 min-w-0 h-full">
             {/* Widget Preview Area */}
-            <div className="bg-[#141414] rounded-lg p-12 flex items-center justify-center min-h-[600px] relative overflow-hidden">
+            <div className="bg-[#1E1E1E] rounded-xl p-12 flex items-center justify-center h-full relative overflow-hidden">
               {/* Background Grid Pattern */}
               <div
                 className="absolute inset-0 opacity-[0.02] pointer-events-none"

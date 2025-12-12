@@ -8,7 +8,7 @@ interface NotionTopbarProps {
 
 export const NotionTopbar = ({ breadcrumbs }: NotionTopbarProps) => {
   return (
-    <header className="h-[46px] bg-notion-dark flex items-center px-4 gap-3 flex-shrink-0">
+    <header className="h-[46px] bg-[#141414] flex items-center px-4 gap-3 flex-shrink-0 border-0 border-none">
       {/* Navigation Arrows */}
       <div className="flex items-center gap-1">
         <button className="w-6 h-6 flex items-center justify-center hover:bg-white/5 rounded text-notion-text-dim hover:text-notion-text transition-colors">

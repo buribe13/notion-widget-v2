@@ -46,7 +46,7 @@ const CollapsibleSection = ({
 
 export const NotionSidebar = () => {
   return (
-    <aside className="w-[240px] bg-[#2E2E2E] border-r border-notion-border flex flex-col h-full overflow-y-auto">
+    <aside className="w-[240px] bg-[#1E1E1E] border-r border-notion-border flex flex-col h-full overflow-y-auto">
       {/* Workspace Header */}
       <div className="px-3 py-2.5 mb-6 flex items-center justify-between group">
         <div className="flex items-center gap-2 flex-1 min-w-0">

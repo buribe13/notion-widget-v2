@@ -22,7 +22,7 @@ export const NotionShell = ({ children, breadcrumbs }: NotionShellProps) => {
           <NotionTopbar breadcrumbs={breadcrumbs} />
 
           {/* Page Content */}
-          <main className="flex-1 overflow-y-auto bg-[#1E1E1E]">
+          <main className="flex-1 overflow-y-auto bg-[#141414] h-fit">
             {children}
           </main>
         </div>

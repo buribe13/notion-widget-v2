@@ -130,7 +130,7 @@ export const WidgetPreviewCard = ({
         <div className="grid grid-cols-2 gap-3 mb-6">
           {/* Next Milestone Card */}
           {config.visibleData.nextMilestone && (
-            <div className="bg-[#FCFBFB] rounded-xl p-4 border border-gray-100">
+            <div className="bg-[#FCFBFB] rounded-xl py-3 px-4 border border-gray-100 h-full">
               <p className="text-[10px] font-semibold text-[#F54242] uppercase mb-1">
                 Next Milestone
               </p>
@@ -143,7 +143,7 @@ export const WidgetPreviewCard = ({
 
           {/* Contact Card */}
           {config.visibleData.contact && (
-            <div className="bg-black rounded-xl p-4">
+            <div className="bg-black rounded-xl py-3 px-4 h-full">
               <p className="text-[10px] font-semibold text-white uppercase mb-1">
                 Contact
               </p>
@@ -179,9 +179,9 @@ export const WidgetPreviewCard = ({
             <button
               key={s}
               onClick={() => onSizeChange?.(s)}
-              className={`w-9 h-9 rounded text-xs font-medium transition-colors ${
+              className={`w-9 h-9 rounded-xl text-xs font-medium transition-colors ${
                 size === s
-                  ? "bg-white text-black"
+                  ? "bg-[#141414] text-white"
                   : "bg-transparent text-gray-400 hover:text-white"
               }`}
             >
@@ -193,7 +193,7 @@ export const WidgetPreviewCard = ({
         {/* Save Button */}
         <button
           onClick={onSave}
-          className="bg-[#2C2C2B] hover:bg-[#353535] text-white px-6 py-2.5 rounded-lg text-xs font-medium transition-colors"
+          className="bg-[#141414] hover:bg-[#353535] text-white px-2 py-2 rounded-xl text-xs font-medium transition-colors"
         >
           Save to Device
         </button>
