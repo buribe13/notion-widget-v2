@@ -25,7 +25,7 @@ export default function Home() {
 
   return (
     <NotionShell breadcrumbs={breadcrumbs}>
-      <div className="max-w-[1600px] mx-auto pt-20 px-8 pb-8">
+      <div className="max-w-[1600px] mx-auto pt-6 px-8 pb-6">
         {/* Header Section - Split Layout */}
         <div className="mb-8 flex gap-4">
           {/* Left Section: Branding */}
@@ -55,9 +55,9 @@ export default function Home() {
           </div>
 
           {/* Right Section: Dark Gray Container with Sync Feed Milestones */}
-          <div className="bg-[#2E2E2E] rounded-lg flex-1 px-8 py-6 flex gap-8">
+          <div className="bg-[#141414] rounded-lg flex-1 p-6 flex gap-8">
             {/* Sync Feed Milestones Component */}
-            <div className="flex flex-col items-center flex-1">
+            <div className="flex flex-col items-center flex-1 py-[65px] px-3">
               <div className="w-10 h-10 rounded-full bg-[#555555] flex items-center justify-center mb-3">
                 <RefreshCw className="w-5 h-5 text-[#B0B0B0]" />
               </div>
@@ -73,12 +73,12 @@ export default function Home() {
             </div>
 
             {/* Milestone List */}
-            <div className="space-y-2 flex-1">
+            <div className="flex flex-col gap-6 flex-1 h-full justify-center">
               {[1, 2, 3, 4].map((num) => (
                 <div key={num} className="flex items-start gap-3">
                   <div className="w-px h-6 bg-[#555555] mt-0.5"></div>
                   <div className="flex flex-col">
-                    <span className="text-[13px] font-normal text-white leading-tight">
+                    <span className="text-[13px] font-semibold text-[#B0B0B0] leading-tight">
                       Milestone {num}
                     </span>
                     <span className="text-[11px] font-normal text-[#B0B0B0] leading-tight">
