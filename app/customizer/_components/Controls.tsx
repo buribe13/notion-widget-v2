@@ -1,5 +1,14 @@
-import React from "react";
-import { ArrowRight, Star, BarChart3, Clock } from "lucide-react";
+import React, { useState } from "react";
+import {
+  Star,
+  BarChart3,
+  GanttChartSquare,
+  List,
+  Contact,
+  Image as ImageIcon,
+  Filter,
+  Plus,
+} from "lucide-react";
 import { WidgetConfig, WidgetTheme, DisplayMode } from "./useWidgetConfig";
 
 interface Props {
@@ -8,192 +17,253 @@ interface Props {
   toggleVisibleData: (key: keyof WidgetConfig["visibleData"]) => void;
 }
 
-const THEMES: WidgetTheme[] = ["Cream", "Cool Ocean", "Sandstorm", "Midnight"];
+interface CollapsibleSectionProps {
+  title: string;
+  children: React.ReactNode;
+  defaultOpen?: boolean;
+}
+
+const CollapsibleSection = ({
+  title,
+  children,
+  defaultOpen = true,
+}: CollapsibleSectionProps) => {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  return (
+    <div className={`px-3 py-1.5 ${isOpen ? "mb-3" : ""}`}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between group"
+      >
+        <span className="text-[11px] font-medium text-[#8E8B86]">{title}</span>
+        <Plus className="w-3 h-3 text-[#8E8B86] opacity-0 group-hover:opacity-100 transition-opacity" />
+      </button>
+      {isOpen && <div className="mt-2 space-y-0.5 -ml-2">{children}</div>}
+    </div>
+  );
+};
+
+const THEMES: WidgetTheme[] = [
+  "Cream",
+  "Cool Ocean",
+  "Sandstorm",
+  "Midnight",
+  "Forest",
+  "Sunset",
+];
 const MODES: DisplayMode[] = ["Progress", "Compact", "Milestone"];
+
+// Icon components for Display Mode
+const ProgressIcon = () => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    className="text-[#8E8B86]"
+  >
+    <rect x="2" y="8" width="3" height="4" fill="currentColor" />
+    <rect x="6.5" y="6" width="3" height="6" fill="currentColor" />
+    <rect x="11" y="4" width="3" height="8" fill="currentColor" />
+  </svg>
+);
+
+const CompactIcon = () => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    className="text-[#8E8B86]"
+  >
+    <rect x="2" y="7" width="12" height="1.5" fill="currentColor" />
+    <rect x="2" y="9.5" width="12" height="1.5" fill="currentColor" />
+    <rect x="2" y="12" width="12" height="1.5" fill="currentColor" />
+  </svg>
+);
+
+const MilestoneIcon = () => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    className="text-[#8E8B86]"
+  >
+    <circle cx="3" cy="5" r="1" fill="currentColor" />
+    <circle cx="8" cy="8" r="1" fill="currentColor" />
+    <circle cx="13" cy="11" r="1" fill="currentColor" />
+    <line x1="3" y1="5" x2="8" y2="8" stroke="currentColor" strokeWidth="1" />
+    <line x1="8" y1="8" x2="13" y2="11" stroke="currentColor" strokeWidth="1" />
+  </svg>
+);
 
 export const Controls = ({
   config,
   updateConfig,
   toggleVisibleData,
 }: Props) => {
+  const visibleDataItems = [
+    { key: "progress", label: "Progress", icon: Filter },
+    { key: "nextMilestone", label: "Next Milestone", icon: Star },
+    { key: "chart", label: "Chart", icon: BarChart3 },
+    { key: "gantt", label: "Gantt", icon: GanttChartSquare },
+    { key: "list", label: "List", icon: List },
+    { key: "contact", label: "Contact", icon: Contact },
+    { key: "gallery", label: "Gallery", icon: ImageIcon },
+  ];
+
+  // Count only the visible items that are shown in the UI
+  const visibleCount = visibleDataItems.filter(
+    (item) =>
+      config.visibleData[item.key as keyof typeof config.visibleData] ?? false
+  ).length;
+
+  const projects = [
+    "Portfolio",
+    "Q3 Marketing",
+    "App Redesign",
+    "Brand Identity",
+    "E-commerce",
+  ];
+
   return (
-    <div className="flex flex-col gap-8 w-full max-w-[320px]">
+    <div className="flex flex-col w-full max-w-[320px]">
       {/* Section: Project */}
-      <div className="flex flex-col gap-3">
-        <div className="flex items-center justify-between">
-          <label className="text-[10px] font-medium uppercase tracking-wider text-notion-text-dim">
-            Select Project
-          </label>
-          <button className="w-4 h-4 flex items-center justify-center hover:bg-white/5 rounded opacity-50 hover:opacity-100 transition-opacity">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path
-                d="M2 2L4 4M10 2L8 4M4 4L6 6M8 4L6 6M6 6V10"
-                stroke="currentColor"
-                strokeWidth="1.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+      <CollapsibleSection title="Select Project" defaultOpen={true}>
+        <div className="w-full flex flex-wrap gap-2">
+          {projects.map((project) => {
+            const isSelected = config.projectName === project;
+            return (
+              <button
+                key={project}
+                onClick={() => updateConfig({ projectName: project })}
+                className={`flex items-center gap-2 py-1.5 pl-[10px] pr-3 rounded-[24px] text-[13px] font-medium leading-none whitespace-nowrap transition-colors group border border-[#8E8B86]/30 ${
+                  isSelected
+                    ? "bg-white/5 text-[#8E8B86]"
+                    : "hover:bg-white/5 text-[#8E8B86]"
+                }`}
+              >
+                <span>{project}</span>
+              </button>
+            );
+          })}
         </div>
-        <div className="bg-notion-panel border border-notion-border rounded-lg p-4 flex flex-col gap-3">
-          <div className="flex items-start gap-3">
-            <div className="w-5 h-5 flex-shrink-0 mt-0.5">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path
-                  d="M10 3.33V10M10 10V16.67M10 10H16.67M10 10H3.33"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="text-notion-text-dim"
-                />
-              </svg>
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-[11px] text-notion-text-dim leading-relaxed">
-                Sync Feed Milestones automatically in the Select Project button.
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={() => {
-              // Cycle through projects for demo
-              const projects = [
-                "Portfolio Website",
-                "Q3 Marketing Campaign",
-                "Mobile App Redesign",
-              ];
-              const currentIndex = projects.indexOf(config.projectName);
-              const nextIndex = (currentIndex + 1) % projects.length;
-              updateConfig({ projectName: projects[nextIndex] });
-            }}
-            className="text-[13px] text-notion-blue hover:underline text-left"
-          >
-            Select Project
-          </button>
-        </div>
-      </div>
+      </CollapsibleSection>
 
       {/* Section: Display Mode */}
-      <div className="flex flex-col gap-3">
-        <label className="text-[10px] font-medium uppercase tracking-wider text-notion-text-dim">
-          Display Mode
-        </label>
-        <div className="flex p-1 bg-notion-panel border border-notion-border rounded-lg">
-          {MODES.map((mode) => (
-            <button
-              key={mode}
-              onClick={() => updateConfig({ displayMode: mode })}
-              className={`flex-1 py-1.5 text-[11px] font-medium rounded-md transition-all ${
-                config.displayMode === mode
-                  ? "bg-white/10 text-notion-text shadow-sm"
-                  : "text-notion-text-dim hover:text-notion-text"
-              }`}
-            >
-              {mode}
-            </button>
-          ))}
+      <CollapsibleSection title="Display Mode" defaultOpen={true}>
+        <div className="w-full flex flex-wrap gap-2">
+          {MODES.map((mode) => {
+            const isSelected = config.displayMode === mode;
+            const IconComponent =
+              mode === "Progress"
+                ? ProgressIcon
+                : mode === "Compact"
+                ? CompactIcon
+                : MilestoneIcon;
+
+            return (
+              <button
+                key={mode}
+                onClick={() => updateConfig({ displayMode: mode })}
+                className={`flex items-center gap-2 py-1.5 pl-[10px] pr-3 rounded-[24px] text-[13px] font-medium leading-none whitespace-nowrap transition-colors group border border-[#8E8B86]/30 ${
+                  isSelected
+                    ? "bg-white/5 text-[#8E8B86]"
+                    : "hover:bg-white/5 text-[#8E8B86]"
+                }`}
+              >
+                <span>{mode}</span>
+              </button>
+            );
+          })}
         </div>
-      </div>
+      </CollapsibleSection>
 
       {/* Section: Visible Data */}
-      <div className="flex flex-col gap-3">
-        <div className="flex justify-between items-baseline">
-          <label className="text-[10px] font-medium uppercase tracking-wider text-notion-text-dim">
-            Visible Data
-          </label>
-          <span className="text-[9px] text-notion-text-dim opacity-60">
-            {Object.values(config.visibleData).filter(Boolean).length}/4
-          </span>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          {[
-            { key: "progress", label: "Progress", icon: ArrowRight },
-            { key: "nextMilestone", label: "Next Milestone", icon: Star },
-            { key: "chart", label: "Chart", icon: BarChart3 },
-            { key: "lastUpdate", label: "Last Update", icon: Clock },
-          ].map((item) => {
+      <CollapsibleSection
+        title={`Visible Data (${visibleCount}/4)`}
+        defaultOpen={true}
+      >
+        <div className="w-full flex flex-wrap gap-2">
+          {visibleDataItems.map((item) => {
             const isChecked =
               config.visibleData[item.key as keyof typeof config.visibleData] ??
               false;
             const IconComponent = item.icon;
             return (
-              <label
+              <button
                 key={item.key}
-                className={`flex items-center justify-between p-2 rounded-lg hover:bg-white/5 cursor-pointer group transition-colors ${
-                  isChecked ? "bg-white/5" : ""
+                onClick={() => {
+                  // Only allow toggling on if less than 4 items are selected, or if this item is already checked
+                  if (!isChecked && visibleCount >= 4) {
+                    return;
+                  }
+                  toggleVisibleData(
+                    item.key as keyof typeof config.visibleData
+                  );
+                }}
+                disabled={!isChecked && visibleCount >= 4}
+                className={`flex items-center gap-2 py-1.5 pl-[10px] pr-3 rounded-[24px] text-[13px] font-medium leading-none whitespace-nowrap transition-colors group ${
+                  isChecked
+                    ? "text-[#34C759] bg-[#34C759]/10 border border-[#34C759]"
+                    : "text-[#8E8B86] hover:bg-white/5 border border-[#8E8B86]/30"
+                } ${
+                  !isChecked && visibleCount >= 4
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
                 }`}
               >
-                <div className="flex items-center gap-2">
-                  {isChecked && (
-                    <IconComponent className="w-4 h-4 text-green-500" />
-                  )}
-                  <span
-                    className={`text-[13px] ${
-                      isChecked ? "text-green-500" : "text-notion-text"
-                    } group-hover:text-white`}
-                  >
-                    {item.label}
-                  </span>
-                </div>
-                <input
-                  type="checkbox"
-                  className="accent-notion-green w-4 h-4 rounded-sm bg-transparent border-notion-border"
-                  checked={isChecked}
-                  onChange={() =>
-                    toggleVisibleData(
-                      item.key as keyof typeof config.visibleData
-                    )
-                  }
+                <IconComponent
+                  className={`w-4 h-4 flex-shrink-0 ${
+                    isChecked ? "text-[#34C759]" : "text-[#8E8B86]"
+                  }`}
                 />
-              </label>
+                <span>{item.label}</span>
+              </button>
             );
           })}
         </div>
-      </div>
+      </CollapsibleSection>
 
       {/* Section: Style */}
-      <div className="flex flex-col gap-3">
-        <label className="text-[10px] font-medium uppercase tracking-wider text-notion-text-dim">
-          Select Style
-        </label>
-        <div className="grid grid-cols-2 gap-2">
-          {THEMES.map((theme) => (
-            <button
-              key={theme}
-              onClick={() => updateConfig({ theme })}
-              className={`group flex items-center gap-3 p-2 rounded-lg border transition-all ${
-                config.theme === theme
-                  ? "bg-white/10 border-notion-blue/50 ring-1 ring-notion-blue/50"
-                  : "bg-transparent border-transparent hover:bg-white/5"
-              }`}
-            >
-              <div
-                className={`w-6 h-6 rounded-full shadow-inner ${
-                  theme === "Cream"
-                    ? "bg-gradient-to-b from-white to-amber-50"
-                    : theme === "Cool Ocean"
-                    ? "bg-gradient-to-b from-blue-300 to-blue-500"
-                    : theme === "Sandstorm"
-                    ? "bg-gradient-to-b from-orange-300 to-orange-500"
-                    : "bg-gradient-to-b from-gray-800 to-purple-900"
-                }`}
-              />
-              <span
-                className={`text-[13px] ${
-                  config.theme === theme
-                    ? "text-notion-text"
-                    : "text-notion-text-dim"
+      <CollapsibleSection title="Select Style" defaultOpen={true}>
+        <div className="w-full flex flex-wrap gap-2">
+          {THEMES.map((theme) => {
+            const isSelected = config.theme === theme;
+            const colorSwatch =
+              theme === "Cream"
+                ? "bg-[#FCFBFB]"
+                : theme === "Cool Ocean"
+                ? "bg-[#4D7999]"
+                : theme === "Sandstorm"
+                ? "bg-[#997B4D]"
+                : theme === "Midnight"
+                ? "bg-[#38024C]"
+                : theme === "Forest"
+                ? "bg-[#2D5016]"
+                : "bg-[#8B2D5C]"; // Sunset
+
+            return (
+              <button
+                key={theme}
+                onClick={() => updateConfig({ theme })}
+                className={`flex items-center gap-2 py-1.5 pl-[10px] pr-3 rounded-[24px] text-[13px] font-medium leading-none whitespace-nowrap transition-colors group border border-[#8E8B86]/30 ${
+                  isSelected
+                    ? "bg-white/5 text-[#8E8B86]"
+                    : "hover:bg-white/5 text-[#8E8B86]"
                 }`}
               >
-                {theme}
-              </span>
-            </button>
-          ))}
+                <div
+                  className={`w-4 h-4 rounded-full ${colorSwatch} border border-gray-300/20 flex-shrink-0`}
+                />
+                <span>{theme}</span>
+              </button>
+            );
+          })}
         </div>
-      </div>
+      </CollapsibleSection>
     </div>
   );
 };

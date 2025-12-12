@@ -5,7 +5,8 @@ export type WidgetTheme =
   | "Cool Ocean"
   | "Sandstorm"
   | "Midnight"
-  | "Noir Glow";
+  | "Forest"
+  | "Sunset";
 export type DisplayMode = "Progress" | "Compact" | "Milestone";
 
 export interface WidgetConfig {
@@ -17,20 +18,28 @@ export interface WidgetConfig {
     progress: boolean;
     nextMilestone: boolean;
     lastUpdate: boolean;
-    chart: boolean; // Placeholder for the Gantt/List toggle
+    chart: boolean;
+    gantt: boolean;
+    list: boolean;
+    contact: boolean;
+    gallery: boolean;
   };
 }
 
 export const initialConfig: WidgetConfig = {
-  projectName: "Portfolio Website",
+  projectName: "Portfolio",
   clientName: "Breadcrumb Studio",
   displayMode: "Progress",
   theme: "Cream",
   visibleData: {
-    progress: true,
+    progress: false,
     nextMilestone: true,
     lastUpdate: true,
     chart: false,
+    gantt: false,
+    list: false,
+    contact: true,
+    gallery: false,
   },
 };
 

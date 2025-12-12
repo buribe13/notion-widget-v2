@@ -87,7 +87,7 @@ export const NotionSidebar = () => {
 
       {/* Primary Navigation */}
       <div className="px-1 mb-[18px]">
-        <button className="w-full flex items-center gap-2 px-2 py-1.5 rounded-[6px] hover:bg-white/5 text-[13px] text-[#8E8B86] hover:text-[#8E8B86] transition-colors group">
+        <button className="w-full flex items-center gap-2 px-2 py-1.5 rounded-[6px] hover:bg-white/5 text-[13px] font-medium text-[#8E8B86] hover:text-[#8E8B86] transition-colors group">
           <Search className="w-4 h-4 text-[#8E8B86]" />
           <span>Search</span>
         </button>
@@ -101,7 +101,7 @@ export const NotionSidebar = () => {
           return (
             <button
               key={item.label}
-              className="w-full flex items-center gap-2 px-2 py-1.5 rounded-[6px] hover:bg-white/5 text-[13px] text-[#8E8B86] hover:text-[#8E8B86] transition-colors group"
+              className="w-full flex items-center gap-2 px-2 py-1.5 rounded-[6px] hover:bg-white/5 text-[13px] font-medium text-[#8E8B86] hover:text-[#8E8B86] transition-colors group"
             >
               <IconComponent className="w-4 h-4 text-[#8E8B86]" />
               <span>{item.label}</span>
@@ -118,12 +118,12 @@ export const NotionSidebar = () => {
         ].map((item) => (
           <button
             key={item.label}
-            className="w-full flex items-center gap-2 px-2 py-1 rounded-[6px] hover:bg-white/5 text-[13px] text-[#8E8B86] transition-colors group"
+            className="w-full flex items-center gap-2 px-2 py-1 rounded-[6px] hover:bg-white/5 text-[13px] font-medium text-[#8E8B86] transition-colors group"
           >
             <span className="text-[14px] relative">
               {item.icon}
               {item.badge && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-medium w-4 h-4 rounded-full flex items-center justify-center">
                   {item.badge}
                 </span>
               )}
@@ -142,7 +142,7 @@ export const NotionSidebar = () => {
         ].map((item) => (
           <button
             key={item.label}
-            className="w-full flex items-center gap-2 px-2 py-1 rounded-[6px] hover:bg-white/5 text-[13px] text-[#8E8B86] transition-colors group"
+            className="w-full flex items-center gap-2 px-2 py-1 rounded-[6px] hover:bg-white/5 text-[13px] font-medium text-[#8E8B86] transition-colors group"
           >
             <span className="text-[14px]">{item.icon}</span>
             <span className="truncate flex-1 text-left">{item.label}</span>
@@ -152,7 +152,7 @@ export const NotionSidebar = () => {
 
       {/* Shared Section */}
       <CollapsibleSection title="Shared">
-        <button className="w-full flex items-center gap-2 px-2 py-1 rounded-[6px] bg-white/5 text-[13px] text-[#8E8B86] transition-colors group">
+        <button className="w-full flex items-center gap-2 px-2 py-1 rounded-[6px] bg-white/5 text-[13px] font-medium text-[#8E8B86] transition-colors group">
           <span className="text-[14px]">🍎</span>
           <span className="truncate flex-1 text-left">My Dashboard</span>
         </button>
@@ -167,7 +167,7 @@ export const NotionSidebar = () => {
         ].map((item) => (
           <button
             key={item.label}
-            className="w-full flex items-center gap-2 px-2 py-1 rounded-[6px] hover:bg-white/5 text-[13px] text-[#8E8B86] transition-colors group"
+            className="w-full flex items-center gap-2 px-2 py-1 rounded-[6px] hover:bg-white/5 text-[13px] font-medium text-[#8E8B86] transition-colors group"
           >
             <FileText className="w-4 h-4 text-[#8E8B86]" />
             <span className="truncate flex-1 text-left">{item.label}</span>
@@ -185,7 +185,7 @@ export const NotionSidebar = () => {
           return (
             <button
               key={item.label}
-              className="w-full flex items-center gap-2 px-2 py-1 rounded-[6px] hover:bg-white/5 text-[13px] text-[#8E8B86] transition-colors group"
+              className="w-full flex items-center gap-2 px-2 py-1 rounded-[6px] hover:bg-white/5 text-[13px] font-medium text-[#8E8B86] transition-colors group"
             >
               <IconComponent className="w-4 h-4 text-[#8E8B86]" />
               <span className="truncate flex-1 text-left">{item.label}</span>
@@ -205,7 +205,7 @@ export const NotionSidebar = () => {
           return (
             <button
               key={item.label}
-              className="w-full flex items-center gap-2 px-2 py-1.5 rounded-[6px] hover:bg-white/5 text-[13px] text-[#8E8B86] hover:text-[#8E8B86] transition-colors"
+              className="w-full flex items-center gap-2 px-2 py-1.5 rounded-[6px] hover:bg-white/5 text-[13px] font-medium text-[#8E8B86] hover:text-[#8E8B86] transition-colors"
             >
               <IconComponent className="w-4 h-4 text-[#8E8B86]" />
               <span>{item.label}</span>
