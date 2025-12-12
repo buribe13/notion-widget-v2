@@ -25,9 +25,9 @@ export default function Home() {
 
   return (
     <NotionShell breadcrumbs={breadcrumbs}>
-      <div className="max-w-[1600px] mx-auto pt-6 px-8 pb-6 flex flex-col gap-0 h-fit">
+      <div className="max-w-[1600px] mx-auto pt-6 px-8 pb-6 flex flex-col gap-0 h-full">
         {/* Header Section - Split Layout */}
-        <div className="mb-8 flex gap-4 h-fit">
+        <div className="mb-8 flex gap-4 flex-shrink-0">
           {/* Left Section: Branding */}
           <div className="flex items-start gap-3 px-8 py-6 flex-1">
             <div>
@@ -79,7 +79,7 @@ export default function Home() {
         </div>
 
         {/* Widget Customizer Content */}
-        <div className="flex gap-8 h-full">
+        <div className="flex gap-8 flex-1 min-h-0">
           {/* Left Panel: Controls */}
           <aside className="w-[380px] flex-shrink-0">
             <Controls
@@ -90,9 +90,9 @@ export default function Home() {
           </aside>
 
           {/* Right Panel: Preview */}
-          <section className="flex-1 min-w-0 h-full">
+          <section className="flex-1 min-w-0 min-h-0 flex flex-col">
             {/* Widget Preview Area */}
-            <div className="bg-[#1E1E1E] rounded-xl p-12 flex items-center justify-center h-full relative overflow-hidden">
+            <div className="bg-[#1E1E1E] rounded-xl p-12 flex-1 flex items-center justify-center relative overflow-hidden min-h-0">
               {/* Background Grid Pattern */}
               <div
                 className="absolute inset-0 opacity-[0.02] pointer-events-none"
@@ -109,6 +109,37 @@ export default function Home() {
                 onSizeChange={setSize}
                 onSave={handleSave}
               />
+            </div>
+
+            {/* Size Controls and Save Button - Fixed at Bottom */}
+            <div className="bg-[#1E1E1E] rounded-b-xl px-12 pb-6 flex items-center justify-center gap-4 flex-shrink-0">
+              {/* Size Controls */}
+              <div className="flex gap-2">
+                {(["S", "M", "L"] as const).map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => setSize(s)}
+                    className={`w-9 h-9 rounded-xl text-xs font-medium transition-colors ${
+                      size === s
+                        ? "bg-[#141414] text-white"
+                        : "bg-transparent text-gray-400 hover:text-white"
+                    }`}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+
+              {/* Vertical Divider */}
+              <div className="w-[2px] h-9 bg-white/20"></div>
+
+              {/* Save Button */}
+              <button
+                onClick={handleSave}
+                className="bg-[#141414] hover:bg-[#353535] text-white px-[10px] py-[10px] rounded-xl text-xs font-medium transition-colors"
+              >
+                Save to Device
+              </button>
             </div>
           </section>
         </div>
