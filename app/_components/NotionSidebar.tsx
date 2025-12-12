@@ -54,7 +54,7 @@ export const NotionSidebar = () => {
             b
           </div>
           <span className="text-[13px] font-medium text-notion-text truncate">
-            benjamin's Notion
+            benjamin&apos;s Notion
           </span>
         </div>
         <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
