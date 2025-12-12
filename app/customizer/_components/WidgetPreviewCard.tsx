@@ -83,18 +83,19 @@ export const WidgetPreviewCard = ({
     config.theme === "Forest" ||
     config.theme === "Sunset";
 
-  // Size-based width
-  const sizeWidths = {
-    S: "w-[340px]",
-    M: "w-[420px]",
-    L: "w-[500px]",
+  // Size-based dimensions matching iOS/macOS/iPadOS standards
+  // iOS/iPadOS: Small (170×170), Medium (360×170), Large (360×360)
+  const sizeDimensions = {
+    S: "w-[170px] h-[170px]",
+    M: "w-[360px] h-[170px]",
+    L: "w-[360px] h-[360px]",
   };
 
   return (
     <div className="flex flex-col items-center gap-6">
       {/* Widget Container */}
       <div
-        className={`relative ${sizeWidths[size]} rounded-2xl p-6 shadow-md ${containerClass} transition-all duration-300`}
+        className={`relative ${sizeDimensions[size]} rounded-2xl p-6 shadow-md ${containerClass} transition-all duration-300 overflow-hidden`}
       >
         {/* Header */}
         <div className="flex justify-between items-start mb-4">

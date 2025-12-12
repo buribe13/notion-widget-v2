@@ -5,7 +5,7 @@ import { NotionShell } from "./_components/NotionShell";
 import { useWidgetConfig } from "./customizer/_components/useWidgetConfig";
 import { Controls } from "./customizer/_components/Controls";
 import { WidgetPreviewCard } from "./customizer/_components/WidgetPreviewCard";
-import { Globe, RefreshCw } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 
 export default function Home() {
   const { config, updateConfig, toggleVisibleData } = useWidgetConfig();
@@ -30,22 +30,9 @@ export default function Home() {
         <div className="mb-8 flex gap-4 h-fit">
           {/* Left Section: Branding */}
           <div className="flex items-start gap-3 px-8 py-6 flex-1">
-            <div className="relative flex items-center justify-center w-6 h-6">
-              <Globe className="w-6 h-6 text-[#5078F2] relative z-10" />
-              {/* Grid pattern overlay for globe icon */}
-              <div
-                className="absolute inset-0 opacity-40 pointer-events-none"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(to right, #5078F2 1px, transparent 1px), linear-gradient(to bottom, #5078F2 1px, transparent 1px)",
-                  backgroundSize: "3px 3px",
-                  width: "24px",
-                  height: "24px",
-                }}
-              />
-            </div>
             <div>
-              <h1 className="text-[32px] font-bold text-white mb-1 leading-tight">
+              <h1 className="text-[32px] font-bold text-white mb-1 leading-tight flex items-center gap-2">
+                <span className="text-2xl">🧩</span>
                 Widget Builder
               </h1>
               <p className="text-[13px] font-normal text-white leading-tight">
@@ -66,7 +53,7 @@ export default function Home() {
               </p>
               <a
                 href="#"
-                className="text-[13px] font-normal text-[#5078F2] underline hover:no-underline"
+                className="text-[13px] font-normal text-[#5078F2] hover:no-underline"
               >
                 Select Project
               </a>
