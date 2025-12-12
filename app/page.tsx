@@ -5,6 +5,7 @@ import { NotionShell } from "./_components/NotionShell";
 import { useWidgetConfig } from "./customizer/_components/useWidgetConfig";
 import { Controls } from "./customizer/_components/Controls";
 import { WidgetPreviewCard } from "./customizer/_components/WidgetPreviewCard";
+import { Globe, RefreshCw } from "lucide-react";
 
 export default function Home() {
   const { config, updateConfig, toggleVisibleData } = useWidgetConfig();
@@ -24,20 +25,68 @@ export default function Home() {
 
   return (
     <NotionShell breadcrumbs={breadcrumbs}>
-      <div className="max-w-[1600px] mx-auto p-8">
-        {/* Page Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center text-[22px]">
-              🌐
+      <div className="max-w-[1600px] mx-auto pt-20 px-8 pb-8">
+        {/* Header Section - Split Layout */}
+        <div className="mb-8 flex gap-4">
+          {/* Left Section: Branding */}
+          <div className="flex items-start gap-3 px-8 py-6 flex-1">
+            <div className="relative flex items-center justify-center w-6 h-6">
+              <Globe className="w-6 h-6 text-[#5078F2] relative z-10" />
+              {/* Grid pattern overlay for globe icon */}
+              <div
+                className="absolute inset-0 opacity-40 pointer-events-none"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(to right, #5078F2 1px, transparent 1px), linear-gradient(to bottom, #5078F2 1px, transparent 1px)",
+                  backgroundSize: "3px 3px",
+                  width: "24px",
+                  height: "24px",
+                }}
+              />
             </div>
             <div>
-              <h1 className="text-[32px] font-bold text-notion-text mb-1">
+              <h1 className="text-[32px] font-bold text-white mb-1 leading-tight">
                 Widget Builder
               </h1>
-              <p className="text-[13px] text-notion-text-dim">
+              <p className="text-[13px] font-normal text-white leading-tight">
                 Manage and execute projects from start to finish.
               </p>
+            </div>
+          </div>
+
+          {/* Right Section: Dark Gray Container with Sync Feed Milestones */}
+          <div className="bg-[#2E2E2E] rounded-lg flex-1 px-8 py-6 flex gap-8">
+            {/* Sync Feed Milestones Component */}
+            <div className="flex flex-col items-center flex-1">
+              <div className="w-10 h-10 rounded-full bg-[#555555] flex items-center justify-center mb-3">
+                <RefreshCw className="w-5 h-5 text-[#B0B0B0]" />
+              </div>
+              <p className="text-[13px] font-normal text-[#B0B0B0] text-center mb-3 leading-tight max-w-[280px]">
+                Sync Feed Milestones automatically in the Select Project button.
+              </p>
+              <a
+                href="#"
+                className="text-[13px] font-normal text-[#5078F2] underline hover:no-underline"
+              >
+                Select Project
+              </a>
+            </div>
+
+            {/* Milestone List */}
+            <div className="space-y-2 flex-1">
+              {[1, 2, 3, 4].map((num) => (
+                <div key={num} className="flex items-start gap-3">
+                  <div className="w-px h-6 bg-[#555555] mt-0.5"></div>
+                  <div className="flex flex-col">
+                    <span className="text-[13px] font-normal text-white leading-tight">
+                      Milestone {num}
+                    </span>
+                    <span className="text-[11px] font-normal text-[#B0B0B0] leading-tight">
+                      DUE 12/17
+                    </span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
