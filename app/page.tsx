@@ -9,7 +9,7 @@ import { RefreshCw } from "lucide-react";
 
 export default function Home() {
   const { config, updateConfig, toggleVisibleData } = useWidgetConfig();
-  const [size, setSize] = useState<"S" | "M" | "L">("S");
+  const [size, setSize] = useState<"S" | "M" | "L">("L");
 
   // Dynamic breadcrumb: last segment uses project name
   const breadcrumbs = [

@@ -50,7 +50,7 @@ export const NotionSidebar = () => {
       {/* Workspace Header */}
       <div className="px-3 py-2.5 mb-6 flex items-center justify-between group">
         <div className="flex items-center gap-2 flex-1 min-w-0">
-          <div className="w-5 h-5 rounded bg-red-500 flex-shrink-0 flex items-center justify-center text-[9px] text-white font-medium">
+          <div className="w-5 h-5 rounded-2xl bg-red-500 flex-shrink-0 flex items-center justify-center text-[9px] text-white font-medium">
             b
           </div>
           <span className="text-[13px] font-medium text-notion-text truncate">

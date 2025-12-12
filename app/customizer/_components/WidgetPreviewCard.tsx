@@ -39,8 +39,8 @@ const ProgressBar = ({
 
   return (
     <div className="w-full">
-      <div className="flex justify-between text-sm font-medium mb-2 text-gray-500">
-        <span>Progress</span>
+      <div className="flex justify-between text-[11px] font-medium mb-2 text-gray-500">
+        <span style={{ fontSize: "11px" }}>Progress</span>
         <span>{progress}%</span>
       </div>
       <div
@@ -115,7 +115,13 @@ export const WidgetPreviewCard = ({
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div
+      className="flex flex-col items-center"
+      style={{
+        fontFamily:
+          '"SF Pro Rounded", "SF Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      }}
+    >
       {/* Widget Container */}
       <div
         className={`relative ${sizeDimensions[size]} ${sizePadding[size]} rounded-2xl shadow-md ${containerClass} transition-all duration-300 overflow-hidden flex flex-col`}
@@ -126,21 +132,7 @@ export const WidgetPreviewCard = ({
             size === "S" ? "mb-2" : "mb-3"
           }`}
         >
-          <div className="flex items-center gap-2">
-            {/* Notion Icon */}
-            <div
-              className={`${
-                size === "S" ? "w-5 h-5" : "w-6 h-6"
-              } rounded bg-white flex items-center justify-center shadow-sm`}
-            >
-              <span
-                className={`${
-                  size === "S" ? "text-xs" : "text-sm"
-                } font-semibold text-black`}
-              >
-                N
-              </span>
-            </div>
+          <div className="flex items-center gap-2 w-full">
             <div
               className={`${
                 size === "S"
@@ -206,25 +198,32 @@ export const WidgetPreviewCard = ({
           <div
             className={`grid ${
               size === "M" ? "grid-cols-1" : "grid-cols-2"
-            } gap-3 mb-4`}
+            } gap-1 mb-4`}
+            style={{ rowGap: "4px" }}
           >
             {/* Next Milestone Card */}
             {showNextMilestone && (
-              <div className="bg-[#FCFBFB] rounded-xl py-3 px-4 border border-gray-100 h-full">
-                <p className="text-[10px] font-semibold text-[#F54242] uppercase mb-1">
+              <div
+                className="bg-[#FCFBFB] rounded-xl py-3 px-4 border border-gray-100 h-full flex flex-col"
+                style={{ gap: "4px" }}
+              >
+                <p className="text-[9px] font-medium text-[#F54242] uppercase mb-1">
                   Next Milestone
                 </p>
                 <p className="text-base font-bold text-black mb-1">
                   Usability Testing
                 </p>
-                <p className="text-xs text-gray-500">Oct 31, 2025</p>
+                <p className="text-[9px] text-gray-500">Oct 31, 2025</p>
               </div>
             )}
 
             {/* Contact Card - Only in Large */}
             {showContact && (
-              <div className="bg-black rounded-xl py-3 px-4 h-full">
-                <p className="text-[10px] font-semibold text-white uppercase mb-1">
+              <div
+                className="bg-black rounded-xl py-3 px-4 h-full flex flex-col"
+                style={{ gap: "4px" }}
+              >
+                <p className="text-[9px] font-medium text-white uppercase mb-1">
                   Contact
                 </p>
                 <p className="text-base font-bold text-white">

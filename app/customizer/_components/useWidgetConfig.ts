@@ -27,12 +27,12 @@ export interface WidgetConfig {
 }
 
 export const initialConfig: WidgetConfig = {
-  projectName: "Portfolio",
+  projectName: "Portfolio Website",
   clientName: "Breadcrumb Studio",
   displayMode: "Progress",
   theme: "Cream",
   visibleData: {
-    progress: false,
+    progress: true,
     nextMilestone: true,
     lastUpdate: true,
     chart: false,
