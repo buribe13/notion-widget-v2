@@ -5,18 +5,14 @@ import { NotionShell } from "./_components/NotionShell";
 import { useWidgetConfig } from "./customizer/_components/useWidgetConfig";
 import { Controls } from "./customizer/_components/Controls";
 import { WidgetPreviewCard } from "./customizer/_components/WidgetPreviewCard";
-import { RefreshCw } from "lucide-react";
+import { RefreshCw, ExternalLink } from "lucide-react";
 
 export default function Home() {
   const { config, updateConfig, toggleVisibleData } = useWidgetConfig();
   const [size, setSize] = useState<"S" | "M" | "L">("L");
 
   // Dynamic breadcrumb: last segment uses project name
-  const breadcrumbs = [
-    "dashboard",
-    "breadcrumb st...",
-    config.projectName || "Widget Builder",
-  ];
+  const breadcrumbs = ["dashboard", config.projectName || "Widget Builder"];
 
   const handleSave = () => {
     // Handle save functionality
@@ -86,6 +82,7 @@ export default function Home() {
               config={config}
               updateConfig={updateConfig}
               toggleVisibleData={toggleVisibleData}
+              size={size}
             />
           </aside>
 

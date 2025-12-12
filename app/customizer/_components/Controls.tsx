@@ -3,7 +3,7 @@ import {
   Star,
   BarChart3,
   GanttChartSquare,
-  List,
+  Clock,
   Contact,
   Image as ImageIcon,
   Filter,
@@ -15,6 +15,7 @@ interface Props {
   config: WidgetConfig;
   updateConfig: (updates: Partial<WidgetConfig>) => void;
   toggleVisibleData: (key: keyof WidgetConfig["visibleData"]) => void;
+  size?: "S" | "M" | "L";
 }
 
 interface CollapsibleSectionProps {
@@ -103,21 +104,36 @@ export const Controls = ({
   config,
   updateConfig,
   toggleVisibleData,
+  size = "L",
 }: Props) => {
   const visibleDataItems = [
     { key: "progress", label: "Progress", icon: Filter },
     { key: "nextMilestone", label: "Next Milestone", icon: Star },
     { key: "chart", label: "Chart", icon: BarChart3 },
     { key: "gantt", label: "Gantt", icon: GanttChartSquare },
-    { key: "list", label: "List", icon: List },
+    { key: "lastUpdate", label: "Last Update", icon: Clock },
     { key: "contact", label: "Contact", icon: Contact },
     { key: "gallery", label: "Gallery", icon: ImageIcon },
   ];
 
-  // Count only the visible items that are shown in the UI
-  const visibleCount = visibleDataItems.filter(
-    (item) =>
-      config.visibleData[item.key as keyof typeof config.visibleData] ?? false
+  // Maximum components allowed based on widget size
+  // Small: 2, Medium: 3, Large: 4 data components
+  const maxComponents = {
+    S: 2,
+    M: 3,
+    L: 4,
+  }[size];
+
+  // Count only the data components that are actually displayed in the widget
+  // These are the components that count toward the limit: progress, nextMilestone, contact, lastUpdate
+  const countableDataComponents = [
+    "progress",
+    "nextMilestone",
+    "contact",
+    "lastUpdate",
+  ];
+  const visibleCount = countableDataComponents.filter(
+    (key) => config.visibleData[key as keyof typeof config.visibleData] ?? false
   ).length;
 
   const projects = [
@@ -183,7 +199,7 @@ export const Controls = ({
 
       {/* Section: Visible Data */}
       <CollapsibleSection
-        title={`Visible Data (${visibleCount}/4)`}
+        title={`Visible Data (${visibleCount}/${maxComponents})`}
         defaultOpen={true}
       >
         <div className="w-full flex flex-wrap gap-2">
@@ -192,28 +208,33 @@ export const Controls = ({
               config.visibleData[item.key as keyof typeof config.visibleData] ??
               false;
             const IconComponent = item.icon;
+            // Only enforce limits on countable data components (progress, nextMilestone, contact, lastUpdate)
+            const isCountableComponent = countableDataComponents.includes(
+              item.key
+            );
+            const shouldDisable =
+              isCountableComponent &&
+              !isChecked &&
+              visibleCount >= maxComponents;
+
             return (
               <button
                 key={item.key}
                 onClick={() => {
-                  // Only allow toggling on if less than 4 items are selected, or if this item is already checked
-                  if (!isChecked && visibleCount >= 4) {
+                  // Only allow toggling on if less than maxComponents items are selected (for countable components), or if this item is already checked
+                  if (shouldDisable) {
                     return;
                   }
                   toggleVisibleData(
                     item.key as keyof typeof config.visibleData
                   );
                 }}
-                disabled={!isChecked && visibleCount >= 4}
+                disabled={shouldDisable}
                 className={`flex items-center gap-2 py-1.5 pl-[10px] pr-3 rounded-[24px] text-[13px] font-medium leading-none whitespace-nowrap transition-colors group ${
                   isChecked
                     ? "text-[#34C759] bg-[#34C759]/10 border border-[#34C759]"
                     : "text-[#8E8B86] hover:bg-white/5 border border-[#8E8B86]/30"
-                } ${
-                  !isChecked && visibleCount >= 4
-                    ? "opacity-50 cursor-not-allowed"
-                    : ""
-                }`}
+                } ${shouldDisable ? "opacity-50 cursor-not-allowed" : ""}`}
               >
                 <IconComponent
                   className={`w-4 h-4 flex-shrink-0 ${

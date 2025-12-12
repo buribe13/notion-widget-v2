@@ -28,7 +28,7 @@ export interface WidgetConfig {
 
 export const initialConfig: WidgetConfig = {
   projectName: "Portfolio Website",
-  clientName: "Breadcrumb Studio",
+  clientName: "",
   displayMode: "Progress",
   theme: "Cream",
   visibleData: {
