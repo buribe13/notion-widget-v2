@@ -1,4 +1,5 @@
 import React from "react";
+import { ExternalLink, Download } from "lucide-react";
 import { WidgetConfig, WidgetTheme } from "./useWidgetConfig";
 
 interface Props {
@@ -26,7 +27,7 @@ const ProgressBar = ({
 
   return (
     <div className="w-full">
-      <div className="flex justify-between text-xs font-medium mb-1 opacity-80 font-rounded">
+      <div className="flex justify-between text-[11px] font-medium mb-1 opacity-80 font-rounded">
         <span>Progress</span>
         <span>{progress}%</span>
       </div>
@@ -62,11 +63,11 @@ export const WidgetPreviewCard = ({ config }: Props) => {
                 isDark ? "bg-white/10" : "bg-black/5"
               }`}
             >
-              <span className="text-sm">N</span>
+              <span className="text-[13px]">N</span>
             </div>
             {config.visibleData.lastUpdate && (
               <div
-                className={`px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wide ${
+                className={`px-2 py-0.5 rounded-full text-[9px] font-medium uppercase tracking-wide ${
                   isDark
                     ? "bg-blue-500/20 text-blue-200"
                     : "bg-blue-100 text-blue-600"
@@ -87,11 +88,11 @@ export const WidgetPreviewCard = ({ config }: Props) => {
 
         {/* Content */}
         <div className="flex flex-col gap-1">
-          <h2 className="text-2xl font-semibold font-rounded leading-tight">
+          <h2 className="text-[22px] font-semibold font-rounded leading-tight">
             {config.projectName}
           </h2>
           {config.clientName && (
-            <p className="text-sm opacity-60 font-rounded">
+            <p className="text-[13px] opacity-60 font-rounded">
               by {config.clientName}
             </p>
           )}
@@ -111,13 +112,13 @@ export const WidgetPreviewCard = ({ config }: Props) => {
                 }`}
               >
                 <div>
-                  <p className="text-[10px] uppercase opacity-60 font-bold mb-0.5">
+                  <p className="text-[9px] uppercase opacity-60 font-bold mb-0.5">
                     Next Milestone
                   </p>
-                  <p className="text-sm font-medium">Usability Testing</p>
+                  <p className="text-[13px] font-medium">Usability Testing</p>
                 </div>
                 <div
-                  className={`text-xs px-2 py-1 rounded-md ${
+                  className={`text-[11px] px-2 py-1 rounded-md ${
                     isDark ? "bg-white/10" : "bg-black/5"
                   }`}
                 >
@@ -127,31 +128,18 @@ export const WidgetPreviewCard = ({ config }: Props) => {
             )}
 
           {/* Footer Meta */}
-          <div className="flex justify-between items-center text-[10px] opacity-50 font-medium uppercase tracking-wider mt-2">
+          <div className="flex justify-between items-center text-[9px] opacity-50 font-medium uppercase tracking-wider mt-2">
             {config.visibleData.lastUpdate && <span>Updated 2h ago</span>}
             <span className="flex items-center gap-1">
-              Open Notion <span className="text-xs">↗</span>
+              Open Notion <ExternalLink className="w-3 h-3" />
             </span>
           </div>
         </div>
       </div>
 
       {/* Save Button */}
-      <button className="bg-notion-dark text-notion-text px-6 py-2.5 rounded-lg text-xs font-medium hover:bg-black transition-colors flex items-center gap-2">
-        <svg
-          width="12"
-          height="12"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-          <polyline points="7 10 12 15 17 10" />
-          <line x1="12" y1="15" x2="12" y2="3" />
-        </svg>
+      <button className="bg-notion-dark text-notion-text px-6 py-2.5 rounded-lg text-[11px] font-medium hover:bg-black transition-colors flex items-center gap-2">
+        <Download className="w-3 h-3" />
         Save to Device
       </button>
     </div>

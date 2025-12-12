@@ -4,17 +4,11 @@ import React from "react";
 
 interface NotionTopbarProps {
   breadcrumbs: string[];
-  pageTitle?: string;
-  pageIcon?: string;
 }
 
-export const NotionTopbar = ({
-  breadcrumbs,
-  pageTitle,
-  pageIcon,
-}: NotionTopbarProps) => {
+export const NotionTopbar = ({ breadcrumbs }: NotionTopbarProps) => {
   return (
-    <header className="h-[46px] bg-[#2E2E2E] border-b border-notion-border flex items-center px-4 gap-3 flex-shrink-0">
+    <header className="h-[46px] bg-notion-dark flex items-center px-4 gap-3 flex-shrink-0">
       {/* Navigation Arrows */}
       <div className="flex items-center gap-1">
         <button className="w-6 h-6 flex items-center justify-center hover:bg-white/5 rounded text-notion-text-dim hover:text-notion-text transition-colors">
@@ -42,7 +36,7 @@ export const NotionTopbar = ({
       </div>
 
       {/* Breadcrumbs */}
-      <div className="flex items-center gap-2 text-sm min-w-0 flex-1">
+      <div className="flex items-center gap-2 text-[13px] min-w-0 flex-1">
         {breadcrumbs.map((crumb, idx) => (
           <React.Fragment key={idx}>
             {idx > 0 && (
@@ -68,38 +62,12 @@ export const NotionTopbar = ({
         ))}
       </div>
 
-      {/* Page Tabs */}
-      <div className="flex items-center gap-1">
-        {pageTitle && pageIcon && (
-          <button className="px-3 py-1.5 rounded bg-white/5 text-sm text-notion-text transition-colors flex items-center gap-1.5 border border-notion-border">
-            <span>{pageIcon}</span>
-            <span>{pageTitle}</span>
-          </button>
-        )}
-        <button className="px-3 py-1.5 rounded hover:bg-white/5 text-sm text-notion-text-dim hover:text-notion-text transition-colors flex items-center gap-1.5">
-          <span>📅</span>
-          <span>Meetings</span>
-        </button>
-        <button className="px-3 py-1.5 rounded hover:bg-white/5 text-sm text-notion-text-dim hover:text-notion-text transition-colors flex items-center gap-1.5">
-          <span>⭐</span>
-          <span>Templates</span>
-        </button>
-        <button className="w-6 h-6 flex items-center justify-center hover:bg-white/5 rounded text-notion-text-dim hover:text-notion-text transition-colors">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path
-              d="M7 3v8M3 7h8"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
-          </svg>
-        </button>
-      </div>
-
       {/* Right Actions */}
       <div className="flex items-center gap-2">
-        <span className="text-xs text-notion-text-dim">Edited just now</span>
-        <button className="px-2.5 py-1 rounded hover:bg-white/5 text-sm text-notion-text-dim hover:text-notion-text transition-colors">
+        <span className="text-[13px] text-notion-text-dim">
+          Edited just now
+        </span>
+        <button className="px-2.5 py-1 rounded hover:bg-white/5 text-[13px] text-notion-text-dim hover:text-notion-text transition-colors">
           Share
         </button>
         <button className="w-7 h-7 flex items-center justify-center hover:bg-white/5 rounded text-notion-text-dim hover:text-notion-text transition-colors">

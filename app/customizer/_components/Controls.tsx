@@ -1,4 +1,5 @@
 import React from "react";
+import { ArrowRight, Star, BarChart3, Clock } from "lucide-react";
 import { WidgetConfig, WidgetTheme, DisplayMode } from "./useWidgetConfig";
 
 interface Props {
@@ -20,7 +21,7 @@ export const Controls = ({
       {/* Section: Project */}
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
-          <label className="text-[11px] font-medium uppercase tracking-wider text-notion-text-dim">
+          <label className="text-[10px] font-medium uppercase tracking-wider text-notion-text-dim">
             Select Project
           </label>
           <button className="w-4 h-4 flex items-center justify-center hover:bg-white/5 rounded opacity-50 hover:opacity-100 transition-opacity">
@@ -50,7 +51,7 @@ export const Controls = ({
               </svg>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs text-notion-text-dim leading-relaxed">
+              <p className="text-[11px] text-notion-text-dim leading-relaxed">
                 Sync Feed Milestones automatically in the Select Project button.
               </p>
             </div>
@@ -67,7 +68,7 @@ export const Controls = ({
               const nextIndex = (currentIndex + 1) % projects.length;
               updateConfig({ projectName: projects[nextIndex] });
             }}
-            className="text-sm text-notion-blue hover:underline text-left"
+            className="text-[13px] text-notion-blue hover:underline text-left"
           >
             Select Project
           </button>
@@ -76,7 +77,7 @@ export const Controls = ({
 
       {/* Section: Display Mode */}
       <div className="flex flex-col gap-3">
-        <label className="text-[11px] font-medium uppercase tracking-wider text-notion-text-dim">
+        <label className="text-[10px] font-medium uppercase tracking-wider text-notion-text-dim">
           Display Mode
         </label>
         <div className="flex p-1 bg-notion-panel border border-notion-border rounded-lg">
@@ -84,7 +85,7 @@ export const Controls = ({
             <button
               key={mode}
               onClick={() => updateConfig({ displayMode: mode })}
-              className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-all ${
+              className={`flex-1 py-1.5 text-[11px] font-medium rounded-md transition-all ${
                 config.displayMode === mode
                   ? "bg-white/10 text-notion-text shadow-sm"
                   : "text-notion-text-dim hover:text-notion-text"
@@ -99,24 +100,25 @@ export const Controls = ({
       {/* Section: Visible Data */}
       <div className="flex flex-col gap-3">
         <div className="flex justify-between items-baseline">
-          <label className="text-[11px] font-medium uppercase tracking-wider text-notion-text-dim">
+          <label className="text-[10px] font-medium uppercase tracking-wider text-notion-text-dim">
             Visible Data
           </label>
-          <span className="text-[10px] text-notion-text-dim opacity-60">
+          <span className="text-[9px] text-notion-text-dim opacity-60">
             {Object.values(config.visibleData).filter(Boolean).length}/4
           </span>
         </div>
 
         <div className="flex flex-col gap-2">
           {[
-            { key: "progress", label: "Progress", icon: "→" },
-            { key: "nextMilestone", label: "Next Milestone", icon: "⭐" },
-            { key: "chart", label: "Chart", icon: "📊" },
-            { key: "lastUpdate", label: "Last Update", icon: "🕐" },
+            { key: "progress", label: "Progress", icon: ArrowRight },
+            { key: "nextMilestone", label: "Next Milestone", icon: Star },
+            { key: "chart", label: "Chart", icon: BarChart3 },
+            { key: "lastUpdate", label: "Last Update", icon: Clock },
           ].map((item) => {
             const isChecked =
               config.visibleData[item.key as keyof typeof config.visibleData] ??
               false;
+            const IconComponent = item.icon;
             return (
               <label
                 key={item.key}
@@ -126,10 +128,10 @@ export const Controls = ({
               >
                 <div className="flex items-center gap-2">
                   {isChecked && (
-                    <span className="text-sm text-green-500">{item.icon}</span>
+                    <IconComponent className="w-4 h-4 text-green-500" />
                   )}
                   <span
-                    className={`text-sm ${
+                    className={`text-[13px] ${
                       isChecked ? "text-green-500" : "text-notion-text"
                     } group-hover:text-white`}
                   >
@@ -154,7 +156,7 @@ export const Controls = ({
 
       {/* Section: Style */}
       <div className="flex flex-col gap-3">
-        <label className="text-[11px] font-medium uppercase tracking-wider text-notion-text-dim">
+        <label className="text-[10px] font-medium uppercase tracking-wider text-notion-text-dim">
           Select Style
         </label>
         <div className="grid grid-cols-2 gap-2">
@@ -180,7 +182,7 @@ export const Controls = ({
                 }`}
               />
               <span
-                className={`text-sm ${
+                className={`text-[13px] ${
                   config.theme === theme
                     ? "text-notion-text"
                     : "text-notion-text-dim"

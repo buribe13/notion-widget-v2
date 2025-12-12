@@ -17,23 +17,19 @@ export default function Home() {
   ];
 
   return (
-    <NotionShell
-      breadcrumbs={breadcrumbs}
-      pageTitle="Widget Builder"
-      pageIcon="🌐"
-    >
+    <NotionShell breadcrumbs={breadcrumbs}>
       <div className="max-w-[1600px] mx-auto p-8">
         {/* Page Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center text-2xl">
+            <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center text-[22px]">
               🌐
             </div>
             <div>
-              <h1 className="text-4xl font-bold text-notion-text mb-1">
+              <h1 className="text-[32px] font-bold text-notion-text mb-1">
                 Widget Builder
               </h1>
-              <p className="text-sm text-notion-text-dim">
+              <p className="text-[13px] text-notion-text-dim">
                 Manage and execute projects from start to finish.
               </p>
             </div>
@@ -63,10 +59,10 @@ export default function Home() {
                   "Milestone 4",
                 ].map((milestone, idx) => (
                   <div key={idx} className="flex flex-col gap-1">
-                    <span className="text-xs text-notion-text-dim">
+                    <span className="text-[11px] text-notion-text-dim">
                       {milestone}
                     </span>
-                    <span className="text-xs font-medium text-notion-text">
+                    <span className="text-[11px] font-medium text-notion-text">
                       DUE 12/17
                     </span>
                   </div>
