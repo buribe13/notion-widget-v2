@@ -30,3 +30,5 @@ export const NotionShell = ({ children, breadcrumbs }: NotionShellProps) => {
     </div>
   );
 };
+
+
