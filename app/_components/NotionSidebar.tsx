@@ -17,6 +17,11 @@ import {
   Search,
 } from "lucide-react";
 
+interface NotionSidebarProps {
+  collapsed: boolean;
+  onToggleCollapsed: () => void;
+}
+
 interface SectionProps {
   title: string;
   children: React.ReactNode;
@@ -44,9 +49,17 @@ const CollapsibleSection = ({
   );
 };
 
-export const NotionSidebar = () => {
+export const NotionSidebar = ({
+  collapsed,
+  onToggleCollapsed,
+}: NotionSidebarProps) => {
+  // Don't render when collapsed - sidebar is completely hidden
+  if (collapsed) {
+    return null;
+  }
+
   return (
-    <aside className="w-[240px] bg-[#1E1E1E] border-r border-notion-border flex flex-col h-full overflow-y-auto">
+    <aside className="w-[240px] bg-[#1E1E1E] border-r border-notion-border flex flex-col h-full overflow-y-auto transition-all duration-200">
       {/* Workspace Header */}
       <div className="px-3 py-2.5 flex items-center justify-between group">
         <div className="flex items-center gap-2 flex-1 min-w-0">
@@ -57,31 +70,23 @@ export const NotionSidebar = () => {
             benjamin&apos;s Notion
           </span>
         </div>
-        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
-          <button className="w-4 h-4 flex items-center justify-center hover:bg-white/10 rounded-[6px] text-[#8E8B86]">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <rect
-                x="4"
-                y="2"
-                width="4"
-                height="4"
-                rx="0.5"
-                stroke="currentColor"
-                strokeWidth="1"
-              />
-              <path d="M2 6h8M6 2v8" stroke="currentColor" strokeWidth="1" />
-            </svg>
-          </button>
-          <button className="w-4 h-4 flex items-center justify-center hover:bg-white/10 rounded-[6px] text-[#8E8B86]">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path
-                d="M3 4.5L6 1.5L9 4.5"
-                stroke="currentColor"
-                strokeWidth="1"
-                strokeLinecap="round"
-              />
-            </svg>
-          </button>
+        <div className="flex items-center gap-1 flex-shrink-0">
+          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            <button className="w-4 h-4 flex items-center justify-center hover:bg-white/10 rounded-[6px] text-[#8E8B86]">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <rect
+                  x="4"
+                  y="2"
+                  width="4"
+                  height="4"
+                  rx="0.5"
+                  stroke="currentColor"
+                  strokeWidth="1"
+                />
+                <path d="M2 6h8M6 2v8" stroke="currentColor" strokeWidth="1" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -229,5 +234,3 @@ export const NotionSidebar = () => {
     </aside>
   );
 };
-
-

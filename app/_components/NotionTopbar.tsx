@@ -1,37 +1,33 @@
 "use client";
 
 import React from "react";
+import { PanelLeftClose, PanelLeft } from "lucide-react";
 
 interface NotionTopbarProps {
   breadcrumbs: string[];
+  sidebarCollapsed: boolean;
+  onToggleSidebar: () => void;
 }
 
-export const NotionTopbar = ({ breadcrumbs }: NotionTopbarProps) => {
+export const NotionTopbar = ({
+  breadcrumbs,
+  sidebarCollapsed,
+  onToggleSidebar,
+}: NotionTopbarProps) => {
   return (
     <header className="h-[46px] bg-[#141414] flex items-center px-4 gap-3 flex-shrink-0 border-0 border-none">
-      {/* Navigation Arrows */}
+      {/* Sidebar Toggle Button */}
       <div className="flex items-center gap-1">
-        <button className="w-6 h-6 flex items-center justify-center hover:bg-white/5 rounded text-notion-text-dim hover:text-notion-text transition-colors">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path
-              d="M9 11L5 7L9 3"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </button>
-        <button className="w-6 h-6 flex items-center justify-center hover:bg-white/5 rounded text-notion-text-dim hover:text-notion-text transition-colors">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path
-              d="M5 11L9 7L5 3"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+        <button
+          onClick={onToggleSidebar}
+          className="w-6 h-6 flex items-center justify-center hover:bg-white/5 rounded text-notion-text-dim hover:text-notion-text transition-colors"
+          title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+        >
+          {sidebarCollapsed ? (
+            <PanelLeft className="w-4 h-4" />
+          ) : (
+            <PanelLeftClose className="w-4 h-4" />
+          )}
         </button>
       </div>
 
@@ -92,5 +88,3 @@ export const NotionTopbar = ({ breadcrumbs }: NotionTopbarProps) => {
     </header>
   );
 };
-
-

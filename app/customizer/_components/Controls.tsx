@@ -15,7 +15,7 @@ interface Props {
   config: WidgetConfig;
   updateConfig: (updates: Partial<WidgetConfig>) => void;
   toggleVisibleData: (key: keyof WidgetConfig["visibleData"]) => void;
-  size?: "S" | "M" | "L";
+  size?: "S" | "M" | "L" | "XL";
 }
 
 interface CollapsibleSectionProps {
@@ -117,11 +117,12 @@ export const Controls = ({
   ];
 
   // Maximum components allowed based on widget size
-  // Small: 2, Medium: 3, Large: 4 data components
+  // Small: 2, Medium: 3, Large: 4, Extra Large: 5 data components
   const maxComponents = {
     S: 2,
     M: 3,
     L: 4,
+    XL: 5,
   }[size];
 
   // Count only the data components that are actually displayed in the widget
@@ -136,38 +137,8 @@ export const Controls = ({
     (key) => config.visibleData[key as keyof typeof config.visibleData] ?? false
   ).length;
 
-  const projects = [
-    "Portfolio",
-    "Q3 Marketing",
-    "App Redesign",
-    "Brand Identity",
-    "E-commerce",
-  ];
-
   return (
     <div className="flex flex-col w-full max-w-[320px]">
-      {/* Section: Project */}
-      <CollapsibleSection title="Select Project" defaultOpen={true}>
-        <div className="w-full flex flex-wrap gap-2">
-          {projects.map((project) => {
-            const isSelected = config.projectName === project;
-            return (
-              <button
-                key={project}
-                onClick={() => updateConfig({ projectName: project })}
-                className={`flex items-center gap-2 py-1.5 pl-[10px] pr-3 rounded-[24px] text-[13px] font-medium leading-none whitespace-nowrap transition-colors group border border-[#8E8B86]/30 ${
-                  isSelected
-                    ? "bg-white/5 text-[#8E8B86]"
-                    : "hover:bg-white/5 text-[#8E8B86]"
-                }`}
-              >
-                <span>{project}</span>
-              </button>
-            );
-          })}
-        </div>
-      </CollapsibleSection>
-
       {/* Section: Display Mode */}
       <CollapsibleSection title="Display Mode" defaultOpen={true}>
         <div className="w-full flex flex-wrap gap-2">

@@ -1,12 +1,12 @@
 import React from "react";
 import { ExternalLink } from "lucide-react";
-import { WidgetConfig, WidgetTheme } from "./useWidgetConfig";
-import { useWidgetVisibility } from "./useWidgetVisibility";
+import { WidgetConfig, WidgetTheme, DisplayMode } from "./useWidgetConfig";
+import { useWidgetVisibility, WidgetSize } from "./useWidgetVisibility";
 
 interface Props {
   config: WidgetConfig;
-  size?: "S" | "M" | "L";
-  onSizeChange?: (size: "S" | "M" | "L") => void;
+  size?: WidgetSize;
+  onSizeChange?: (size: WidgetSize) => void;
   onSave?: () => void;
 }
 
@@ -19,12 +19,15 @@ const themeStyles: Record<WidgetTheme, string> = {
   Sunset: "bg-gradient-to-br from-[#FF6B6B] to-[#8B2D5C] text-white",
 };
 
+// Progress Bar Component - adapts to size
 const ProgressBar = ({
   progress,
   theme,
+  compact = false,
 }: {
   progress: number;
   theme: WidgetTheme;
+  compact?: boolean;
 }) => {
   const isDark =
     theme === "Midnight" ||
@@ -34,40 +37,31 @@ const ProgressBar = ({
     theme === "Sunset";
   const barBg = isDark ? "bg-white/10" : "bg-gray-100";
   const fillBg = isDark ? "bg-white" : "bg-[#F54242]";
-
-  // Create 10 segments for a more granular progress display
-  const segments = 10;
+  const segments = compact ? 5 : 10;
   const segmentWidth = 100 / segments;
 
   return (
     <div className="w-full">
-      <div className="flex justify-between text-[11px] font-medium mb-2.5 text-gray-500">
-        <span style={{ fontSize: "11px" }}>Progress</span>
+      <div
+        className={`flex justify-between ${
+          compact ? "text-[10px]" : "text-[11px]"
+        } font-medium mb-1.5 text-gray-500`}
+      >
+        <span>Progress</span>
         <span className="font-semibold">{progress}%</span>
       </div>
-      <div className="flex gap-1 w-full">
+      <div className="flex gap-0.5 w-full">
         {Array.from({ length: segments }).map((_, index) => {
           const segmentProgress = (index + 1) * segmentWidth;
           const isFilled = progress >= segmentProgress;
-          const isPartiallyFilled =
-            progress > index * segmentWidth && progress < segmentProgress;
-          const fillPercentage = isPartiallyFilled
-            ? ((progress - index * segmentWidth) / segmentWidth) * 100
-            : 0;
-
           return (
             <div
               key={index}
-              className={`flex-1 h-2 rounded-sm overflow-hidden ${barBg}`}
+              className={`flex-1 ${
+                compact ? "h-1.5" : "h-2"
+              } rounded-sm overflow-hidden ${barBg}`}
             >
-              {isFilled ? (
-                <div className={`h-full ${fillBg} rounded-sm`} />
-              ) : isPartiallyFilled ? (
-                <div
-                  className={`h-full ${fillBg} rounded-sm`}
-                  style={{ width: `${fillPercentage}%` }}
-                />
-              ) : null}
+              {isFilled && <div className={`h-full ${fillBg} rounded-sm`} />}
             </div>
           );
         })}
@@ -76,6 +70,84 @@ const ProgressBar = ({
   );
 };
 
+// Compact Progress (inline text for small widgets)
+const CompactProgress = ({ progress }: { progress: number }) => (
+  <div className="flex items-center gap-1.5">
+    <span className="text-[10px] font-medium text-gray-500">Progress</span>
+    <span className="text-base font-bold text-black">{progress}%</span>
+  </div>
+);
+
+// Milestone Card - adapts to size
+const MilestoneCard = ({
+  size,
+  compact = false,
+}: {
+  size: WidgetSize;
+  compact?: boolean;
+}) => {
+  if (compact || size === "S") {
+    return (
+      <div className="bg-white/80 rounded-lg py-1.5 px-2 border border-gray-100 flex flex-col justify-center">
+        <p className="text-[8px] font-semibold text-[#F54242] mb-0.5">
+          Next Milestone
+        </p>
+        <p className="text-[11px] font-bold text-black leading-tight truncate">
+          Usability Testing
+        </p>
+        <p className="text-[8px] text-gray-500">Oct 31</p>
+      </div>
+    );
+  }
+  return (
+    <div className="bg-white/80 rounded-xl py-2 px-3 border border-gray-100 flex flex-col justify-center h-full">
+      <p className="text-[9px] font-semibold text-[#F54242] mb-0.5">
+        Next Milestone
+      </p>
+      <p className="text-sm font-bold text-black leading-tight truncate">
+        Usability Testing
+      </p>
+      <p className="text-[9px] text-gray-500">Oct 31, 2025</p>
+    </div>
+  );
+};
+
+// Contact Button - adapts to size
+const ContactButton = ({ compact = false }: { compact?: boolean }) => (
+  <button
+    className={`${
+      compact ? "px-2 py-1.5 text-[11px]" : "px-3 py-2 text-sm"
+    } bg-gray-100 hover:bg-gray-200 rounded-lg font-medium text-black flex items-center gap-1.5 transition-colors justify-center h-full`}
+  >
+    Contact
+    <ExternalLink className={compact ? "w-3 h-3" : "w-3.5 h-3.5"} />
+  </button>
+);
+
+// Open Notion Button - adapts to size
+const OpenNotionButton = ({ compact = false }: { compact?: boolean }) => (
+  <button
+    className={`${
+      compact ? "px-2 py-1.5 text-[11px]" : "px-3 py-2 text-sm"
+    } bg-gray-100 hover:bg-gray-200 rounded-lg font-medium text-black flex items-center gap-1.5 transition-colors justify-center h-full`}
+  >
+    Open Notion
+    <ExternalLink className={compact ? "w-3 h-3" : "w-3.5 h-3.5"} />
+  </button>
+);
+
+// Last Update Footer
+const LastUpdateFooter = ({ compact = false }: { compact?: boolean }) => (
+  <div
+    className={`flex justify-between items-center ${
+      compact ? "text-[10px]" : "text-xs"
+    } text-gray-500 pt-2 border-t border-gray-200`}
+  >
+    <span>Last Update</span>
+    <span>2 hours ago</span>
+  </div>
+);
+
 export const WidgetPreviewCard = ({
   config,
   size = "S",
@@ -83,43 +155,151 @@ export const WidgetPreviewCard = ({
   onSave,
 }: Props) => {
   const containerClass = themeStyles[config.theme] || themeStyles["Cream"];
-  const isDark =
-    config.theme === "Midnight" ||
-    config.theme === "Cool Ocean" ||
-    config.theme === "Sandstorm" ||
-    config.theme === "Forest" ||
-    config.theme === "Sunset";
+  const { displayMode } = config;
 
-  // Size-based dimensions matching iOS/macOS/iPadOS standards
-  // iOS/iPadOS: Small (170×170), Medium (360×170), Large (360×360)
-  const sizeDimensions = {
-    S: "w-[170px] h-[170px]",
-    M: "w-[360px] h-[170px]",
-    L: "w-[360px] h-[360px]",
+  // Strict fixed widget dimensions (in pixels)
+  // S: 162×162, M: 344×162, L: 344×344, XL: 688×344
+  const sizeDimensions: Record<WidgetSize, string> = {
+    S: "w-[162px] h-[162px]",
+    M: "w-[344px] h-[162px]",
+    L: "w-[344px] h-[344px]",
+    XL: "w-[688px] h-[344px]",
+  };
+
+  // Size-based padding (tighter for smaller widgets)
+  const sizePadding: Record<WidgetSize, string> = {
+    S: "p-3",
+    M: "p-3",
+    L: "p-4",
+    XL: "p-4",
   };
 
   // Use visibility utility to determine which components to show based on size limits
   const visibility = useWidgetVisibility(config, size);
 
-  // Determine display modes for progress
-  const showProgressBar = visibility.progress && size !== "S";
-  const showCompactProgress = visibility.progress && size === "S";
+  // Render content based on displayMode and size
+  const renderContent = () => {
+    // SMALL WIDGET (162×162) - max 2 components
+    if (size === "S") {
+      return (
+        <div className="flex-1 flex flex-col gap-1.5 min-h-0 overflow-hidden">
+          {visibility.progress && <CompactProgress progress={75} />}
+          {visibility.nextMilestone && <MilestoneCard size={size} compact />}
+        </div>
+      );
+    }
 
-  // Determine which data components to show
-  const showNextMilestone = visibility.nextMilestone;
-  const showContact = visibility.contact;
-  const showFooter = visibility.lastUpdate;
-  const showOpenButton = visibility.openButton;
+    // MEDIUM WIDGET (344×162) - max 3 components, horizontal layout
+    if (size === "M") {
+      if (displayMode === "Compact") {
+        // Compact mode: minimal info, inline
+        return (
+          <div className="flex-1 flex flex-col gap-1.5 min-h-0 overflow-hidden">
+            {visibility.progress && <CompactProgress progress={75} />}
+            <div className="flex gap-2 flex-1 min-h-0">
+              {visibility.nextMilestone && (
+                <div className="flex-1">
+                  <MilestoneCard size={size} compact />
+                </div>
+              )}
+              {visibility.contact && (
+                <div className="flex-shrink-0">
+                  <ContactButton compact />
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      }
+      // Progress or Milestone mode
+      return (
+        <div className="flex-1 flex flex-col gap-1.5 min-h-0 overflow-hidden">
+          {visibility.progress && (
+            <ProgressBar progress={75} theme={config.theme} compact />
+          )}
+          <div className="flex gap-2 flex-1 min-h-0">
+            {visibility.nextMilestone && (
+              <div className="flex-1">
+                <MilestoneCard size={size} compact />
+              </div>
+            )}
+            {visibility.contact && (
+              <div className="flex-shrink-0">
+                <ContactButton compact />
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
 
-  // Information cards section (for medium and large)
-  const showInformationCards =
-    size !== "S" && (showNextMilestone || showContact || showOpenButton);
+    // LARGE WIDGET (344×344) - max 4 components
+    if (size === "L") {
+      if (displayMode === "Compact") {
+        return (
+          <div className="flex-1 flex flex-col gap-2 min-h-0 overflow-hidden">
+            {visibility.progress && <CompactProgress progress={75} />}
+            <div className="flex-1 grid grid-cols-2 gap-2 min-h-0">
+              {visibility.nextMilestone && <MilestoneCard size={size} />}
+              <div className="flex flex-col gap-2">
+                {visibility.contact && <ContactButton />}
+                {visibility.openButton && <OpenNotionButton />}
+              </div>
+            </div>
+            {visibility.lastUpdate && <LastUpdateFooter />}
+          </div>
+        );
+      }
+      // Progress or Milestone mode
+      return (
+        <div className="flex-1 flex flex-col gap-2 min-h-0 overflow-hidden">
+          {visibility.progress && (
+            <ProgressBar progress={75} theme={config.theme} />
+          )}
+          <div className="flex-1 grid grid-cols-2 gap-2 min-h-0">
+            {visibility.nextMilestone && <MilestoneCard size={size} />}
+            <div className="flex flex-col gap-2">
+              {visibility.contact && <ContactButton />}
+              {visibility.openButton && <OpenNotionButton />}
+            </div>
+          </div>
+          {visibility.lastUpdate && <LastUpdateFooter />}
+        </div>
+      );
+    }
 
-  // Size-based padding following iOS guidelines (16pt standard margins)
-  const sizePadding = {
-    S: "p-4", // 16px padding for small widget
-    M: "p-5", // 20px padding for medium widget
-    L: "p-6", // 24px padding for large widget
+    // XL WIDGET (688×344) - max 5 components, wide layout
+    if (size === "XL") {
+      if (displayMode === "Compact") {
+        return (
+          <div className="flex-1 flex flex-col gap-2 min-h-0 overflow-hidden">
+            {visibility.progress && <CompactProgress progress={75} />}
+            <div className="flex-1 grid grid-cols-3 gap-3 min-h-0">
+              {visibility.nextMilestone && <MilestoneCard size={size} />}
+              {visibility.contact && <ContactButton />}
+              {visibility.openButton && <OpenNotionButton />}
+            </div>
+            {visibility.lastUpdate && <LastUpdateFooter />}
+          </div>
+        );
+      }
+      // Progress or Milestone mode - use the extra width
+      return (
+        <div className="flex-1 flex flex-col gap-2 min-h-0 overflow-hidden">
+          {visibility.progress && (
+            <ProgressBar progress={75} theme={config.theme} />
+          )}
+          <div className="flex-1 grid grid-cols-3 gap-3 min-h-0">
+            {visibility.nextMilestone && <MilestoneCard size={size} />}
+            {visibility.contact && <ContactButton />}
+            {visibility.openButton && <OpenNotionButton />}
+          </div>
+          {visibility.lastUpdate && <LastUpdateFooter />}
+        </div>
+      );
+    }
+
+    return null;
   };
 
   return (
@@ -130,131 +310,40 @@ export const WidgetPreviewCard = ({
           '"SF Pro Rounded", "SF Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
       }}
     >
-      {/* Widget Container */}
+      {/* Widget Container - Strictly fixed dimensions */}
       <div
-        className={`relative ${sizeDimensions[size]} ${sizePadding[size]} rounded-2xl shadow-md ${containerClass} transition-all duration-300 overflow-hidden flex flex-col h-full`}
+        className={`relative ${sizeDimensions[size]} ${sizePadding[size]} rounded-2xl shadow-md ${containerClass} transition-all duration-300 overflow-hidden flex flex-col flex-shrink-0 flex-grow-0`}
       >
         {/* Header */}
         <div
-          className={`flex justify-between items-start ${
-            size === "S" ? "mb-2" : "mb-3"
-          }`}
+          className={`flex items-center gap-2 ${
+            size === "S" ? "mb-1" : "mb-2"
+          } flex-shrink-0`}
         >
-          <div className="flex items-center gap-2 w-full">
-            <div
-              className={`${
-                size === "S"
-                  ? "px-2 py-0.5 text-[9px]"
-                  : "px-2.5 py-1 text-[10px]"
-              } rounded-full font-medium bg-[#E3F2FD] text-[#1976D2]`}
-            >
-              In Progress
-            </div>
+          <div
+            className={`${
+              size === "S"
+                ? "px-1.5 py-0.5 text-[8px]"
+                : "px-2 py-0.5 text-[9px]"
+            } rounded-full font-medium bg-[#E3F2FD] text-[#1976D2]`}
+          >
+            In Progress
           </div>
         </div>
 
         {/* Title Section */}
-        <div className="flex flex-col gap-1 flex-shrink-0">
+        <div className={`flex-shrink-0 ${size === "S" ? "mb-1" : "mb-2"}`}>
           <h2
             className={`${
-              size === "S" ? "text-lg" : "text-2xl"
-            } font-bold text-black leading-tight`}
+              size === "S" ? "text-base" : size === "M" ? "text-lg" : "text-xl"
+            } font-bold text-black leading-tight truncate`}
           >
             {config.projectName}
           </h2>
         </div>
 
-        {/* Content Area - Flex container that fills height and prevents overflow */}
-        <div className="flex-1 flex flex-col min-h-0 h-full gap-2 overflow-hidden">
-          {/* Compact Progress for Small Widget */}
-          {showCompactProgress && (
-            <div className="flex-shrink-0">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-medium text-gray-500">
-                  Progress
-                </span>
-                <span className="text-lg font-bold text-black">75%</span>
-              </div>
-            </div>
-          )}
-
-          {/* Progress Bar for Medium and Large */}
-          {showProgressBar && (
-            <div className="flex-shrink-0">
-              <ProgressBar progress={75} theme={config.theme} />
-            </div>
-          )}
-
-          {/* Small Widget: Single Milestone Card */}
-          {size === "S" && showNextMilestone && (
-            <div className="flex-1 h-full flex flex-col min-h-0">
-              <div className="bg-[#FCFBFB] rounded-xl py-2 px-3 border border-gray-100 h-full flex flex-col justify-center">
-                <p className="text-[9px] font-semibold text-[#F54242] mb-0.5">
-                  Next Milestone
-                </p>
-                <p className="text-sm font-bold text-black leading-tight">
-                  Usability Testing
-                </p>
-                <p className="text-[10px] text-gray-500">Oct 31, 2025</p>
-              </div>
-            </div>
-          )}
-
-          {/* Information Cards for Medium and Large */}
-          {showInformationCards && (
-            <div
-              className={`flex-1 min-h-0 h-full grid ${
-                size === "M" ? "grid-cols-1" : "grid-cols-2"
-              } gap-1`}
-              style={{ rowGap: "4px" }}
-            >
-              {/* Next Milestone Card */}
-              {showNextMilestone && (
-                <div
-                  className="bg-[#FCFBFB] rounded-xl py-3 px-4 border border-gray-100 h-full flex flex-col"
-                  style={{ gap: "4px" }}
-                >
-                  <p className="text-[9px] font-medium text-[#F54242] mb-1">
-                    Next Milestone
-                  </p>
-                  <p className="text-base font-bold text-black mb-1">
-                    Usability Testing
-                  </p>
-                  <p className="text-[9px] text-gray-500">Oct 31, 2025</p>
-                </div>
-              )}
-
-              {/* Right Side Container: Contact and Open Notion - Only in Large */}
-              {size === "L" && (showContact || showOpenButton) && (
-                <div className="flex flex-col gap-1 h-full">
-                  {/* Contact Card */}
-                  {showContact && (
-                    <button className="flex-1 h-full px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium text-black flex items-center gap-2 transition-colors justify-center">
-                      Contact
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </button>
-                  )}
-
-                  {/* Open Notion Button */}
-                  {showOpenButton && (
-                    <button className="flex-1 h-full px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium text-black flex items-center gap-2 transition-colors justify-center">
-                      Open Notion
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Footer - Only in Large */}
-          {showFooter && (
-            <div className="flex-shrink-0 flex justify-between items-center text-xs text-gray-500 pt-4 border-t border-gray-200 mt-auto">
-              <span>Last Update</span>
-              <span>2 hours ago</span>
-            </div>
-          )}
-        </div>
+        {/* Content Area */}
+        {renderContent()}
       </div>
     </div>
   );

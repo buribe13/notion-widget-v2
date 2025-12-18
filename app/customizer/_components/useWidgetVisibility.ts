@@ -1,6 +1,6 @@
 import { WidgetConfig } from "./useWidgetConfig";
 
-export type WidgetSize = "S" | "M" | "L";
+export type WidgetSize = "S" | "M" | "L" | "XL";
 
 export interface VisibleComponents {
   progress: boolean;
@@ -17,6 +17,7 @@ export interface VisibleComponents {
  * - Small (S): Maximum 2 data components
  * - Medium (M): Maximum 3 data components
  * - Large (L): Maximum 4 data components
+ * - Extra Large (XL): Maximum 5 data components
  *
  * Priority order (most important first):
  * 1. Progress (if displayMode is Progress)
@@ -24,7 +25,7 @@ export interface VisibleComponents {
  * 3. Contact
  * 4. Last Update
  *
- * Note: Open Button is always shown in Large size (doesn't count toward limit)
+ * Note: Open Button is always shown in Large/XL size (doesn't count toward limit)
  */
 export function useWidgetVisibility(
   config: WidgetConfig,
@@ -34,6 +35,7 @@ export function useWidgetVisibility(
     S: 2,
     M: 3,
     L: 4,
+    XL: 5,
   }[size];
 
   const visibleComponents: VisibleComponents = {
@@ -41,7 +43,7 @@ export function useWidgetVisibility(
     nextMilestone: false,
     contact: false,
     lastUpdate: false,
-    openButton: size === "L", // Always show in large, doesn't count toward limit
+    openButton: size === "L" || size === "XL", // Always show in large/XL, doesn't count toward limit
   };
 
   let componentCount = 0;
@@ -76,5 +78,3 @@ export function useWidgetVisibility(
 
   return visibleComponents;
 }
-
-
