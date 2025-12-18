@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Home,
   Calendar,
@@ -9,12 +11,11 @@ import {
   Settings,
   ShoppingCart,
   Trash2,
-  HelpCircle,
-  Zap,
-  Plus,
-  FileText,
-  Mail,
+  ChevronRight,
   Search,
+  PenLine,
+  Users,
+  Mail,
 } from "lucide-react";
 
 interface NotionSidebarProps {
@@ -42,7 +43,11 @@ const CollapsibleSection = ({
         className="w-full flex items-center justify-between group"
       >
         <span className="text-[11px] font-medium text-[#8E8B86]">{title}</span>
-        <Plus className="w-3 h-3 text-[#8E8B86] opacity-0 group-hover:opacity-100 transition-opacity" />
+        <ChevronRight
+          className={`w-3 h-3 text-[#8E8B86] opacity-0 group-hover:opacity-100 transition-all ${
+            isOpen ? "rotate-90" : ""
+          }`}
+        />
       </button>
       {isOpen && <div className="mt-2 space-y-0.5 -ml-2">{children}</div>}
     </div>
@@ -53,40 +58,26 @@ export const NotionSidebar = ({
   collapsed,
   onToggleCollapsed,
 }: NotionSidebarProps) => {
+  const pathname = usePathname();
+
   // Don't render when collapsed - sidebar is completely hidden
   if (collapsed) {
     return null;
   }
 
+  const isActive = (path: string) => pathname === path;
+
   return (
     <aside className="w-[240px] bg-[#1E1E1E] border-r border-notion-border flex flex-col h-full overflow-y-auto transition-all duration-200">
       {/* Workspace Header */}
-      <div className="px-3 py-2.5 flex items-center justify-between group">
+      <div className="px-3 py-2.5 flex items-center">
         <div className="flex items-center gap-2 flex-1 min-w-0">
-          <div className="w-5 h-5 rounded-[24px] bg-red-500 flex-shrink-0 flex items-center justify-center text-[9px] text-white font-medium">
+          <div className="w-5 h-5 rounded-full bg-red-500 flex-shrink-0 flex items-center justify-center text-[9px] text-white font-medium">
             b
           </div>
           <span className="text-[13px] font-medium text-notion-text truncate">
             benjamin&apos;s Notion
           </span>
-        </div>
-        <div className="flex items-center gap-1 flex-shrink-0">
-          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-            <button className="w-4 h-4 flex items-center justify-center hover:bg-white/10 rounded-[6px] text-[#8E8B86]">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <rect
-                  x="4"
-                  y="2"
-                  width="4"
-                  height="4"
-                  rx="0.5"
-                  stroke="currentColor"
-                  strokeWidth="1"
-                />
-                <path d="M2 6h8M6 2v8" stroke="currentColor" strokeWidth="1" />
-              </svg>
-            </button>
-          </div>
         </div>
       </div>
 
@@ -97,91 +88,65 @@ export const NotionSidebar = ({
           <span>Search</span>
         </button>
         {[
-          { icon: Home, label: "Home" },
-          { icon: Calendar, label: "Meetings" },
-          { icon: Sparkles, label: "Notion AI" },
-          { icon: Inbox, label: "Inbox" },
+          { icon: Home, label: "Home", href: "/home" },
+          { icon: Calendar, label: "Meetings", href: "#" },
+          { icon: Sparkles, label: "Notion AI", href: "#" },
+          { icon: Inbox, label: "Inbox", href: "#" },
         ].map((item) => {
           const IconComponent = item.icon;
+          const active = isActive(item.href);
           return (
-            <button
+            <Link
               key={item.label}
-              className="w-full flex items-center gap-2 px-2 py-1.5 rounded-[6px] hover:bg-white/5 text-[13px] font-medium text-[#8E8B86] hover:text-[#8E8B86] transition-colors group"
+              href={item.href}
+              className={`w-full flex items-center gap-2 px-2 py-1.5 rounded-[6px] text-[13px] font-medium transition-colors ${
+                active
+                  ? "bg-white/5 text-white"
+                  : "hover:bg-white/5 text-[#8E8B86] hover:text-[#8E8B86]"
+              }`}
             >
-              <IconComponent className="w-4 h-4 text-[#8E8B86]" />
+              <IconComponent
+                className={`w-4 h-4 ${
+                  active ? "text-white" : "text-[#8E8B86]"
+                }`}
+              />
               <span>{item.label}</span>
-            </button>
+            </Link>
           );
         })}
       </div>
 
-      {/* Favorites Section */}
-      <CollapsibleSection title="Favorites">
-        {[
-          { icon: "📅", label: "WKLY AGENDA", badge: "17" },
-          { icon: "⭐", label: "dashboard / breadcrumb st..." },
-        ].map((item) => (
-          <button
-            key={item.label}
-            className="w-full flex items-center gap-2 px-2 py-1 rounded-[6px] hover:bg-white/5 text-[13px] font-medium text-[#8E8B86] transition-colors group"
-          >
-            <span className="text-[14px] relative">
-              {item.icon}
-              {item.badge && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-medium w-4 h-4 rounded-full flex items-center justify-center">
-                  {item.badge}
-                </span>
-              )}
-            </span>
-            <span className="truncate flex-1 text-left">{item.label}</span>
-          </button>
-        ))}
-      </CollapsibleSection>
-
-      {/* Workspace Section */}
-      <CollapsibleSection title="Workspace">
-        {[
-          { icon: "⭐", label: "dashboard / breadcrumb st..." },
-          { icon: "🍎", label: "My Dashboard" },
-          { icon: "⚾", label: "UX project planner/tracker" },
-        ].map((item) => (
-          <button
-            key={item.label}
-            className="w-full flex items-center gap-2 px-2 py-1 rounded-[6px] hover:bg-white/5 text-[13px] font-medium text-[#8E8B86] transition-colors group"
-          >
-            <span className="text-[14px]">{item.icon}</span>
-            <span className="truncate flex-1 text-left">{item.label}</span>
-          </button>
-        ))}
-      </CollapsibleSection>
-
-      {/* Shared Section */}
-      <CollapsibleSection title="Shared">
-        <button className="w-full flex items-center gap-2 px-2 py-1 rounded-[6px] bg-white/5 text-[13px] font-medium text-[#8E8B86] transition-colors group">
-          <span className="text-[14px]">🍎</span>
-          <span className="truncate flex-1 text-left">My Dashboard</span>
-        </button>
-      </CollapsibleSection>
-
       {/* Private Section */}
       <CollapsibleSection title="Private">
         {[
-          { label: "MAX New Site Thoughts" },
-          { label: "@October 30, 2025 4:03 PM" },
-          { label: "Nike -> Business Engagem..." },
+          { icon: "👋", label: "Getting Started" },
+          { icon: "≡", label: "To Do List", isIcon: true },
+          { icon: "👥", label: "1:1 notes", iconComponent: Users },
+          { icon: "✏️", label: "Scratchpad", iconComponent: PenLine },
         ].map((item) => (
           <button
             key={item.label}
             className="w-full flex items-center gap-2 px-2 py-1 rounded-[6px] hover:bg-white/5 text-[13px] font-medium text-[#8E8B86] transition-colors group"
           >
-            <FileText className="w-4 h-4 text-[#8E8B86]" />
+            {item.iconComponent ? (
+              <item.iconComponent className="w-4 h-4 text-[#8E8B86]" />
+            ) : (
+              <span className="text-[14px] w-4 text-center">{item.icon}</span>
+            )}
             <span className="truncate flex-1 text-left">{item.label}</span>
           </button>
         ))}
       </CollapsibleSection>
 
-      {/* Notion Apps Section */}
-      <CollapsibleSection title="Notion apps">
+      {/* Teamspaces Section */}
+      <CollapsibleSection title="Teamspaces" defaultOpen={false}>
+        <div className="px-2 py-1 text-[12px] text-[#8E8B86]">
+          No teamspaces yet
+        </div>
+      </CollapsibleSection>
+
+      {/* Notion apps Section */}
+      <CollapsibleSection title="Notion apps" defaultOpen={true}>
         {[
           { icon: Mail, label: "Notion Mail" },
           { icon: Calendar, label: "Notion Calendar" },
@@ -223,12 +188,30 @@ export const NotionSidebar = ({
       <div className="flex-1" />
 
       {/* Bottom Icons */}
-      <div className="px-3 py-2 flex items-center gap-3">
-        <button className="w-5 h-5 flex items-center justify-center hover:bg-white/5 rounded-[6px] text-[#8E8B86] hover:text-[#8E8B86] transition-colors">
-          <HelpCircle className="w-4 h-4 text-[#8E8B86]" />
-        </button>
-        <button className="w-5 h-5 flex items-center justify-center hover:bg-white/5 rounded-[6px] text-[#8E8B86] hover:text-[#8E8B86] transition-colors">
-          <Zap className="w-4 h-4 text-[#8E8B86]" />
+      <div className="px-3 py-2 flex flex-col gap-1">
+        <button className="w-full flex items-center gap-2 px-2 py-1.5 rounded-[6px] hover:bg-white/5 text-[13px] font-medium text-[#8E8B86] hover:text-[#8E8B86] transition-colors">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            className="text-[#8E8B86]"
+          >
+            <circle
+              cx="8"
+              cy="8"
+              r="6"
+              stroke="currentColor"
+              strokeWidth="1.2"
+            />
+            <path
+              d="M8 5v6M5 8h6"
+              stroke="currentColor"
+              strokeWidth="1.2"
+              strokeLinecap="round"
+            />
+          </svg>
+          <span>Upgrade plan</span>
         </button>
       </div>
     </aside>
