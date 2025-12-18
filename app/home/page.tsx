@@ -3,7 +3,14 @@
 import React from "react";
 import Link from "next/link";
 import { NotionShell } from "../_components/NotionShell";
-import { Clock, Book, Calendar, Plus, MoreHorizontal } from "lucide-react";
+import {
+  Clock,
+  Book,
+  Calendar,
+  Plus,
+  MoreHorizontal,
+  ExternalLink,
+} from "lucide-react";
 
 // Learn cards data
 const LEARN_CARDS = [
@@ -18,7 +25,7 @@ const LEARN_CARDS = [
   {
     id: "widget",
     title: "Widget customizer",
-    duration: "2m read",
+    duration: "Easy",
     icon: Book,
     image: null,
     href: "/customizer",
@@ -95,10 +102,35 @@ export default function HomePage() {
             </span>
           </div>
 
-          {/* New page card */}
-          <div className="w-[140px] h-[100px] bg-[#2F2F2F] hover:bg-[#3A3A3A] rounded-lg border border-[#3E3E3E] flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors">
-            <Plus className="w-5 h-5 text-[#9B9A97]" />
-            <span className="text-[13px] text-[#9B9A97]">New page</span>
+          {/* New page card and Dashboard link */}
+          <div className="flex gap-4">
+            <div className="w-[140px] h-[100px] bg-[#2F2F2F] hover:bg-[#3A3A3A] rounded-lg border border-[#3E3E3E] flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors">
+              <Plus className="w-5 h-5 text-[#9B9A97]" />
+              <span className="text-[13px] text-[#9B9A97]">New page</span>
+            </div>
+            <a
+              href="https://notion-client-2025.vercel.app/dashboard"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-shrink-0 w-[180px] bg-[#2F2F2F] hover:bg-[#3A3A3A] rounded-lg overflow-hidden transition-colors border border-transparent hover:border-[#555555]"
+            >
+              {/* Card Image Area */}
+              <div className="h-[90px] bg-[#F5F5F5] flex items-center justify-center">
+                <span className="text-3xl">💼</span>
+              </div>
+              {/* Card Content */}
+              <div className="p-3">
+                <h3 className="text-[13px] font-medium text-white mb-2">
+                  Olivia&apos;s Site
+                </h3>
+                <div className="flex items-center gap-1.5 text-[12px] text-[#9B9A97] min-w-0">
+                  <ExternalLink className="w-3 h-3 flex-shrink-0" />
+                  <span className="truncate">
+                    Jordan Lee&apos;s Design Workspace
+                  </span>
+                </div>
+              </div>
+            </a>
           </div>
         </section>
 
@@ -117,7 +149,7 @@ export default function HomePage() {
               <Link
                 key={card.id}
                 href={card.href}
-                className="flex-shrink-0 w-[180px] bg-[#2F2F2F] hover:bg-[#3A3A3A] rounded-lg overflow-hidden transition-colors group"
+                className="flex-shrink-0 w-[180px] bg-[#2F2F2F] hover:bg-[#3A3A3A] rounded-lg overflow-hidden transition-colors border border-transparent hover:border-[#555555]"
               >
                 {/* Card Image/Illustration Area */}
                 <div className="h-[90px] bg-[#F5F5F5] flex items-center justify-center">
@@ -167,7 +199,7 @@ export default function HomePage() {
 
                 {/* Card Content */}
                 <div className="p-3">
-                  <h3 className="text-[13px] font-medium text-white mb-2 group-hover:text-[#5078F2] transition-colors">
+                  <h3 className="text-[13px] font-medium text-white mb-2">
                     {card.title}
                   </h3>
                   <div className="flex items-center gap-1.5 text-[12px] text-[#9B9A97]">
@@ -289,4 +321,3 @@ export default function HomePage() {
     </NotionShell>
   );
 }
-

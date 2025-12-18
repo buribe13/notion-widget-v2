@@ -73,12 +73,12 @@ export default function OnboardingPage() {
               <div className="flex items-center gap-3">
                 {/* Avatar */}
                 <div className="w-10 h-10 rounded bg-[#5078F2] flex items-center justify-center text-white text-lg font-medium">
-                  L
+                  J
                 </div>
                 {/* Info */}
                 <div className="flex flex-col">
                   <span className="text-[14px] font-medium text-white">
-                    Leng Sixuan的工作空间
+                    Jordan Lee&apos;s Design Workspace
                   </span>
                   <span className="text-[13px] text-[#9B9A97]">4 members</span>
                 </div>

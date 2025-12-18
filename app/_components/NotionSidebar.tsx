@@ -76,7 +76,7 @@ export const NotionSidebar = ({
             b
           </div>
           <span className="text-[13px] font-medium text-notion-text truncate">
-            benjamin&apos;s Notion
+            Olivia&apos;s Notion
           </span>
         </div>
       </div>
@@ -139,10 +139,15 @@ export const NotionSidebar = ({
       </CollapsibleSection>
 
       {/* Teamspaces Section */}
-      <CollapsibleSection title="Teamspaces" defaultOpen={false}>
-        <div className="px-2 py-1 text-[12px] text-[#8E8B86]">
-          No teamspaces yet
-        </div>
+      <CollapsibleSection title="Teamspaces" defaultOpen={true}>
+        <button className="w-full flex items-center gap-2 px-2 py-1 rounded-[6px] hover:bg-white/5 text-[13px] font-medium text-[#8E8B86] transition-colors group">
+          <div className="w-4 h-4 rounded bg-[#5078F2] flex-shrink-0 flex items-center justify-center text-[9px] text-white font-medium">
+            J
+          </div>
+          <span className="truncate flex-1 text-left">
+            Jordan Lee&apos;s Design Workspace
+          </span>
+        </button>
       </CollapsibleSection>
 
       {/* Notion apps Section */}
