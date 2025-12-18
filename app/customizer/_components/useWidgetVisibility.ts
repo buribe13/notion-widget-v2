@@ -12,6 +12,7 @@ export interface VisibleComponents {
 
 /**
  * Determines which components should be visible based on widget size and configuration.
+ * Templates control which data is visible through visibleData presets.
  *
  * Component limits:
  * - Small (S): Maximum 2 data components
@@ -20,7 +21,7 @@ export interface VisibleComponents {
  * - Extra Large (XL): Maximum 5 data components
  *
  * Priority order (most important first):
- * 1. Progress (if displayMode is Progress)
+ * 1. Progress
  * 2. Next Milestone
  * 3. Contact
  * 4. Last Update
@@ -48,12 +49,8 @@ export function useWidgetVisibility(
 
   let componentCount = 0;
 
-  // Priority 1: Progress (if displayMode is Progress)
-  if (
-    config.displayMode === "Progress" &&
-    config.visibleData.progress &&
-    componentCount < maxComponents
-  ) {
+  // Priority 1: Progress
+  if (config.visibleData.progress && componentCount < maxComponents) {
     visibleComponents.progress = true;
     componentCount++;
   }

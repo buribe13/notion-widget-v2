@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { PanelLeftClose, PanelLeft } from "lucide-react";
+import { Sidebar, SidebarClose } from "lucide-react";
 
 interface NotionTopbarProps {
   breadcrumbs: string[];
@@ -24,9 +24,9 @@ export const NotionTopbar = ({
           title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
           {sidebarCollapsed ? (
-            <PanelLeft className="w-4 h-4" />
+            <Sidebar className="w-5 h-5" />
           ) : (
-            <PanelLeftClose className="w-4 h-4" />
+            <SidebarClose className="w-5 h-5" />
           )}
         </button>
       </div>

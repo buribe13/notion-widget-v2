@@ -8,12 +8,17 @@ import {
   Image as ImageIcon,
   Filter,
   Plus,
+  LayoutDashboard,
+  Users,
+  CalendarDays,
+  Minimize2,
 } from "lucide-react";
-import { WidgetConfig, WidgetTheme, DisplayMode } from "./useWidgetConfig";
+import { WidgetConfig, WidgetTheme, WidgetTemplate } from "./useWidgetConfig";
 
 interface Props {
   config: WidgetConfig;
   updateConfig: (updates: Partial<WidgetConfig>) => void;
+  setTemplate: (template: WidgetTemplate) => void;
   toggleVisibleData: (key: keyof WidgetConfig["visibleData"]) => void;
   size?: "S" | "M" | "L" | "XL";
 }
@@ -53,56 +58,34 @@ const THEMES: WidgetTheme[] = [
   "Forest",
   "Sunset",
 ];
-const MODES: DisplayMode[] = ["Progress", "Compact", "Milestone"];
 
-// Icon components for Display Mode
-const ProgressIcon = () => (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    className="text-[#8E8B86]"
-  >
-    <rect x="2" y="8" width="3" height="4" fill="currentColor" />
-    <rect x="6.5" y="6" width="3" height="6" fill="currentColor" />
-    <rect x="11" y="4" width="3" height="8" fill="currentColor" />
-  </svg>
-);
-
-const CompactIcon = () => (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    className="text-[#8E8B86]"
-  >
-    <rect x="2" y="7" width="12" height="1.5" fill="currentColor" />
-    <rect x="2" y="9.5" width="12" height="1.5" fill="currentColor" />
-    <rect x="2" y="12" width="12" height="1.5" fill="currentColor" />
-  </svg>
-);
-
-const MilestoneIcon = () => (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    className="text-[#8E8B86]"
-  >
-    <circle cx="3" cy="5" r="1" fill="currentColor" />
-    <circle cx="8" cy="8" r="1" fill="currentColor" />
-    <circle cx="13" cy="11" r="1" fill="currentColor" />
-    <line x1="3" y1="5" x2="8" y2="8" stroke="currentColor" strokeWidth="1" />
-    <line x1="8" y1="8" x2="13" y2="11" stroke="currentColor" strokeWidth="1" />
-  </svg>
-);
+const TEMPLATES: {
+  name: WidgetTemplate;
+  icon: React.ElementType;
+  description: string;
+}[] = [
+  {
+    name: "Dashboard",
+    icon: LayoutDashboard,
+    description: "Progress, Milestone, Last Update",
+  },
+  {
+    name: "Client View",
+    icon: Users,
+    description: "Progress, Milestone, Contact",
+  },
+  {
+    name: "Timeline",
+    icon: CalendarDays,
+    description: "Progress, Milestone, Updates",
+  },
+  { name: "Minimal", icon: Minimize2, description: "Progress only" },
+];
 
 export const Controls = ({
   config,
   updateConfig,
+  setTemplate,
   toggleVisibleData,
   size = "L",
 }: Props) => {
@@ -139,29 +122,28 @@ export const Controls = ({
 
   return (
     <div className="flex flex-col w-full max-w-[320px]">
-      {/* Section: Display Mode */}
-      <CollapsibleSection title="Display Mode" defaultOpen={true}>
+      {/* Section: Template */}
+      <CollapsibleSection title="Template" defaultOpen={true}>
         <div className="w-full flex flex-wrap gap-2">
-          {MODES.map((mode) => {
-            const isSelected = config.displayMode === mode;
-            const IconComponent =
-              mode === "Progress"
-                ? ProgressIcon
-                : mode === "Compact"
-                ? CompactIcon
-                : MilestoneIcon;
+          {TEMPLATES.map(({ name, icon: IconComponent }) => {
+            const isSelected = config.template === name;
 
             return (
               <button
-                key={mode}
-                onClick={() => updateConfig({ displayMode: mode })}
-                className={`flex items-center gap-2 py-1.5 pl-[10px] pr-3 rounded-[24px] text-[13px] font-medium leading-none whitespace-nowrap transition-colors group border border-[#8E8B86]/30 ${
+                key={name}
+                onClick={() => setTemplate(name)}
+                className={`flex items-center gap-2 py-1.5 pl-[10px] pr-3 rounded-[24px] text-[13px] font-medium leading-none whitespace-nowrap transition-colors group border ${
                   isSelected
-                    ? "bg-white/5 text-[#8E8B86]"
-                    : "hover:bg-white/5 text-[#8E8B86]"
+                    ? "border-[#34C759] bg-[#34C759]/10 text-[#34C759]"
+                    : "border-[#8E8B86]/30 hover:bg-white/5 text-[#8E8B86]"
                 }`}
               >
-                <span>{mode}</span>
+                <IconComponent
+                  className={`w-4 h-4 ${
+                    isSelected ? "text-[#34C759]" : "text-[#8E8B86]"
+                  }`}
+                />
+                <span>{name}</span>
               </button>
             );
           })}

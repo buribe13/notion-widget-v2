@@ -17,7 +17,8 @@ const PROJECTS = [
 ];
 
 export default function Home() {
-  const { config, updateConfig, toggleVisibleData } = useWidgetConfig();
+  const { config, updateConfig, setTemplate, toggleVisibleData } =
+    useWidgetConfig();
   const [size, setSize] = useState<"S" | "M" | "L" | "XL">("L");
   const [isProjectPickerOpen, setIsProjectPickerOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -178,6 +179,7 @@ export default function Home() {
             <Controls
               config={config}
               updateConfig={updateConfig}
+              setTemplate={setTemplate}
               toggleVisibleData={toggleVisibleData}
               size={size}
             />

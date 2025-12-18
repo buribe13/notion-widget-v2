@@ -7,12 +7,65 @@ export type WidgetTheme =
   | "Midnight"
   | "Forest"
   | "Sunset";
-export type DisplayMode = "Progress" | "Compact" | "Milestone";
+
+// Templates define which data components are shown
+export type WidgetTemplate =
+  | "Dashboard"
+  | "Client View"
+  | "Timeline"
+  | "Minimal";
+
+// Template presets - each template has a predefined set of visible data
+export const templatePresets: Record<
+  WidgetTemplate,
+  WidgetConfig["visibleData"]
+> = {
+  Dashboard: {
+    progress: true,
+    nextMilestone: true,
+    lastUpdate: true,
+    chart: false,
+    gantt: false,
+    list: false,
+    contact: false,
+    gallery: false,
+  },
+  "Client View": {
+    progress: true,
+    nextMilestone: true,
+    lastUpdate: false,
+    chart: false,
+    gantt: false,
+    list: false,
+    contact: true,
+    gallery: false,
+  },
+  Timeline: {
+    progress: true,
+    nextMilestone: true,
+    lastUpdate: true,
+    chart: false,
+    gantt: false,
+    list: false,
+    contact: false,
+    gallery: false,
+  },
+  Minimal: {
+    progress: true,
+    nextMilestone: false,
+    lastUpdate: false,
+    chart: false,
+    gantt: false,
+    list: false,
+    contact: false,
+    gallery: false,
+  },
+};
 
 export interface WidgetConfig {
   projectName: string;
   clientName: string;
-  displayMode: DisplayMode;
+  template: WidgetTemplate;
   theme: WidgetTheme;
   visibleData: {
     progress: boolean;
@@ -29,12 +82,12 @@ export interface WidgetConfig {
 export const initialConfig: WidgetConfig = {
   projectName: "Portfolio Website",
   clientName: "",
-  displayMode: "Progress",
+  template: "Client View",
   theme: "Cream",
   visibleData: {
     progress: true,
     nextMilestone: true,
-    lastUpdate: true,
+    lastUpdate: false,
     chart: false,
     gantt: false,
     list: false,
@@ -50,6 +103,15 @@ export function useWidgetConfig() {
     setConfig((prev) => ({ ...prev, ...updates }));
   };
 
+  // When selecting a template, apply its preset visible data
+  const setTemplate = (template: WidgetTemplate) => {
+    setConfig((prev) => ({
+      ...prev,
+      template,
+      visibleData: templatePresets[template],
+    }));
+  };
+
   const toggleVisibleData = (key: keyof WidgetConfig["visibleData"]) => {
     setConfig((prev) => ({
       ...prev,
@@ -60,8 +122,5 @@ export function useWidgetConfig() {
     }));
   };
 
-  return { config, updateConfig, toggleVisibleData };
+  return { config, updateConfig, setTemplate, toggleVisibleData };
 }
-
-
-
